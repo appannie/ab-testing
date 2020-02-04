@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - v8
+  - v10
+  - v12
+script:
+  - yarn test
+  - lerna run build
+after_script: cat ./coverage/lcov.info | coveralls

@@ -1,5 +1,8 @@
 {
-    "name": "react-ab-testing",
+    "name": "@appannie/react-ab-testing",
+    "publishConfig": {
+        "access": "public"
+    },
     "version": "0.0.0",
     "description": "",
     "files": [
@@ -8,5 +11,8 @@
     "private": false,
     "main": "lib/index.js",
     "typings": "lib/index.d.ts",
+    "scripts": {
+        "build": "tsc --pretty"
+    },
     "keywords": []
 }

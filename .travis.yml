@@ -2,40 +2,17 @@ os: linux
 language: node_js
 cache:
   yarn: true
+  directories:
+    - node_modules
 
-env:
-  - JOB=test
-  - JOB=lint
 node_js:
-  - v10
   - v12
+  - v10
 
 install:
   - yarn install
 
 script:
-  - if [ "$JOB" = "lint" ]; then yarn lint; fi
-  - if [ "$JOB" = "test" ]; then yarn test; fi
-
-stages:
-  - test
-  - name: deploy
-    # if: branch = master
-
-jobs:
-  include:
-    - name: Submit Coverage
-      node_js: v12
-      env:
-        - JOB=test
-      after_script: yarn coveralls <./coverage/lcov.info
-
-    - stage: deploy
-      name : NPM Release
-      node_js: v12
-      env:
-        - JOB=deploy
-      script:
-        - echo npm release
-    - name : GitHub Release
-      script: echo github release
+  - yarn lint
+  - yarn test
+  - yarn coveralls <./coverage/lcov.info

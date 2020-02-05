@@ -1,9 +1,18 @@
+os: linux
 language: node_js
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
 node_js:
-  - v8
-  - v10
   - v12
+  - v10
+
+install:
+  - yarn install
+
 script:
+  - yarn lint
   - yarn test
-  - lerna run build
-after_script: cat ./coverage/lcov.info | coveralls
+  - yarn coveralls <./coverage/lcov.info

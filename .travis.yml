@@ -16,3 +16,14 @@ script:
   - yarn lint
   - yarn test
   - yarn coveralls <./coverage/lcov.info
+
+jobs:
+  # include:
+  allow_failures:
+    - stage: deploy
+      name: publish to npm
+      if: head_branch =~ ^release/
+      node_js: v12
+      script:
+        - yarn build
+        - yarn lerna publish from-package --yes

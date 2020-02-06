@@ -1,0 +1,12 @@
+{
+  "javascript.validate.enable": true,
+  "editor.formatOnSave": true,
+  "eslint.options": {
+    "rules": {
+      "no-debugger": "off"
+    }
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}

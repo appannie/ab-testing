@@ -25,5 +25,6 @@ jobs:
       if: head_branch =~ ^release/
       node_js: v12
       script:
+        - cp npmrc-ci .npmrc
         - yarn build
         - yarn lerna publish from-package --yes

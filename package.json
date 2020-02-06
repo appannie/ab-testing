@@ -43,5 +43,6 @@
     "build": "lerna run build",
     "bump": "lerna version --conventional-commits"
   },
-  "repository": "https://github.com/appannie/ab-testing.git"
+  "repository": "https://github.com/appannie/ab-testing.git",
+  "dependencies": {}
 }

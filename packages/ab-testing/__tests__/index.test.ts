@@ -93,9 +93,9 @@ describe('ab-testing module', () => {
             'control'
         );
         expect(
-            Array(100)
+            Array(20)
                 .fill(0)
-                .map((_, i) => getCohort(config, 'experiment_1', { user_id: i + 3 }))
+                .map((_, i) => [i + 3, getCohort(config, 'experiment_1', { user_id: i + 3 })])
         ).toMatchSnapshot();
 
         expect(getCohort(config, 'experiment_2', { user_id: 1 })).toEqual('control');
@@ -119,9 +119,9 @@ describe('ab-testing module', () => {
             'test_force_include'
         );
         expect(
-            Array(100)
+            Array(20)
                 .fill(0)
-                .map((_, i) => getCohort(config, 'experiment_2', { user_id: i + 3 }))
+                .map((_, i) => [i + 3, getCohort(config, 'experiment_2', { user_id: i + 3 })])
         ).toMatchSnapshot();
 
         expect(

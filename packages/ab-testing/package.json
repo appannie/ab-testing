@@ -1,5 +1,6 @@
 {
   "name": "@appannie/ab-testing",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

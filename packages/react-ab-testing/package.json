@@ -1,5 +1,6 @@
 {
   "name": "@appannie/react-ab-testing",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

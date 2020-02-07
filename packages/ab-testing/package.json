@@ -1,18 +1,19 @@
 {
-    "name": "@appannie/ab-testing",
-    "publishConfig": {
-        "access": "public"
-    },
-    "version": "0.0.0",
-    "description": "",
-    "files": [
-        "lib"
-    ],
-    "private": false,
-    "main": "lib/index.js",
-    "typings": "lib/index.d.ts",
-    "scripts": {
-        "build": "tsc --pretty"
-    },
-    "keywords": []
+  "name": "@appannie/ab-testing",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.0",
+  "description": "",
+  "files": [
+    "lib"
+  ],
+  "private": false,
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc --pretty"
+  },
+  "keywords": []
 }

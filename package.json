@@ -1,43 +1,48 @@
 {
-    "name": "root",
-    "private": true,
-    "devDependencies": {
-        "@types/jest": "^25.1.1",
-        "@types/node": "^12.12.7",
-        "@typescript-eslint/eslint-plugin": "^2.6.1",
-        "@typescript-eslint/parser": "^2.6.1",
-        "coveralls": "^3.0.9",
-        "eslint": "^6.6.0",
-        "eslint-config-prettier": "^6.5.0",
-        "eslint-formatter-friendly": "^7.0.0",
-        "eslint-plugin-prettier": "^3.1.1",
-        "husky": "^3.0.9",
-        "jest": "^25.1.0",
-        "lerna": "^3.20.2",
-        "lint-staged": "^9.4.3",
-        "prettier": "^1.19.1",
-        "ts-jest": "^25.2.0",
-        "typescript": "^3.7.5"
-    },
-    "lint-staged": {
-        "*.js": [
-            "eslint --fix",
-            "git add"
-        ],
-        "*.json": [
-            "prettier --write",
-            "git add"
-        ]
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged"
-        }
-    },
-    "scripts": {
-        "lint": "eslint \"packages/**/{src,__tests__}/**/*.ts\" -f eslint-formatter-friendly",
-        "test": "jest",
-        "build": "lerna run build"
-    },
-    "repository": "https://github.com/appannie/ab-testing.git"
+  "name": "root",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@types/jest": "^25.1.1",
+    "@types/node": "^12.12.7",
+    "@typescript-eslint/eslint-plugin": "^2.6.1",
+    "@typescript-eslint/parser": "^2.6.1",
+    "coveralls": "^3.0.9",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-formatter-friendly": "^7.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^3.0.9",
+    "jest": "^25.1.0",
+    "lerna": "^3.20.2",
+    "lint-staged": "^9.4.3",
+    "prettier": "^1.19.1",
+    "ts-jest": "^25.2.0",
+    "typescript": "^3.7.5"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "scripts": {
+    "lint": "eslint \"packages/**/{src,__tests__}/**/*.ts\" -f eslint-formatter-friendly",
+    "test": "jest",
+    "build": "lerna run build",
+    "bump": "lerna version --conventional-commits"
+  },
+  "repository": "https://github.com/appannie/ab-testing.git"
 }

@@ -1,3 +1,4 @@
+import 'ts-polyfill/lib/es2019-object';
 import createHash from 'create-hash';
 import crc32 from 'fast-crc32c';
 
@@ -49,7 +50,7 @@ function getModuloValue(experiment: string, userId: number): number {
     return crc32.calculate(String(userId), crc32.calculate(experiment)) % 100;
 }
 
-export default class Experiments {
+export class Experiments {
     config: ABTestingConfig;
     profile: UserProfile;
     hashedProfile: { [s: string]: string };
@@ -86,3 +87,5 @@ export default class Experiments {
         return 'control';
     };
 }
+
+export default Experiments;

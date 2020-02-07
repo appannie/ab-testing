@@ -2,8 +2,8 @@
   "$schema": "http://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es5",
-    "lib": ["ES2019", "es6", "dom"],
+    "target": "ES2015",
+    "lib": ["ES2019", "dom"],
     "jsx": "react",
     "sourceMap": false,
     "allowJs": false,

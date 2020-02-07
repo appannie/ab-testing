@@ -68,3 +68,5 @@ export function getCohort(
     }
     return 'control';
 }
+
+export default getCohort;

@@ -3,9 +3,11 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
-    "lib": ["es6", "dom"],
+    "lib": ["ES2019", "es6", "dom"],
+    "jsx": "react",
     "sourceMap": false,
     "allowJs": false,
+    "noImplicitAny": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "strict": true,

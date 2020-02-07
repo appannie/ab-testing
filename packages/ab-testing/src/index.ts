@@ -22,7 +22,7 @@ export interface ABTestingConfig {
     experiments: Experiment[];
 }
 
-interface UserProfile {
+export interface UserProfile {
     user_id: number;
     user_type?: string;
     email?: string;
@@ -36,37 +36,53 @@ function getHashedValue(salt: string, sourceValue: unknown): string {
     return hash.digest('hex');
 }
 
+function hashObject(obj: object, salt: string): { [s: string]: string } {
+    return Object.fromEntries(
+        Object.entries(obj).map(([key, value]) => [
+            getHashedValue(salt, key),
+            getHashedValue(salt, value),
+        ])
+    );
+}
+
 function getModuloValue(experiment: string, userId: number): number {
     return crc32.calculate(String(userId), crc32.calculate(experiment)) % 100;
 }
 
-export function getCohort(
-    config: ABTestingConfig,
-    experimentName: string,
-    profile: UserProfile
-): string {
-    const experimentConfig = config.experiments.find(e => e.name === experimentName);
-    for (const cohort of experimentConfig?.cohorts || []) {
-        for (const profileKey of Object.keys(profile) as Iterable<keyof UserProfile>) {
-            const hashedProfileKey = getHashedValue(config.salt, profileKey);
-            const hashedProfileVal = getHashedValue(config.salt, profile[profileKey]);
-            if (
-                cohort.force_include &&
-                cohort.force_include[hashedProfileKey]?.includes(hashedProfileVal)
-            ) {
-                return cohort.name;
-            }
-        }
+export default class Experiments {
+    config: ABTestingConfig;
+    profile: UserProfile;
+    hashedProfile: { [s: string]: string };
+    constructor(
+        config: ABTestingConfig,
+        profile: UserProfile,
+        hashProfile: typeof hashObject = hashObject
+    ) {
+        this.config = config;
+        this.profile = profile;
+        this.hashedProfile = hashProfile(profile as object, config.salt);
     }
-    const userSegmentNum = getModuloValue(experimentName, profile.user_id);
-    for (const cohort of experimentConfig?.cohorts || []) {
-        for (const allocation of cohort.allocation || []) {
-            if (allocation[0] <= userSegmentNum && userSegmentNum < allocation[1]) {
-                return cohort.name;
-            }
-        }
-    }
-    return 'control';
-}
 
-export default getCohort;
+    getCohort = (experimentName: string): string => {
+        const experimentConfig = this.config.experiments.find(e => e.name === experimentName);
+        for (const cohort of experimentConfig?.cohorts || []) {
+            for (const [hashedProfileKey, hashedProfileVal] of Object.entries(this.hashedProfile)) {
+                if (
+                    cohort.force_include &&
+                    cohort.force_include[hashedProfileKey]?.includes(hashedProfileVal)
+                ) {
+                    return cohort.name;
+                }
+            }
+        }
+        const userSegmentNum = getModuloValue(experimentName, this.profile.user_id);
+        for (const cohort of experimentConfig?.cohorts || []) {
+            for (const allocation of cohort.allocation || []) {
+                if (allocation[0] <= userSegmentNum && userSegmentNum < allocation[1]) {
+                    return cohort.name;
+                }
+            }
+        }
+        return 'control';
+    };
+}

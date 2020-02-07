@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { getCohort, ABTestingConfig } from '../src';
+import Experiments, { ABTestingConfig } from '../src';
 
 describe('ab-testing module', () => {
     const config: ABTestingConfig = {
@@ -72,60 +72,108 @@ describe('ab-testing module', () => {
     };
 
     it('match cohorts', () => {
-        expect(getCohort(config, 'experiment_1', { user_id: 2 })).toEqual('control');
-        expect(getCohort(config, 'experiment_1', { user_id: 1 })).toEqual('test_force_include');
-        expect(getCohort(config, 'experiment_1', { user_id: 2, user_type: 'free' })).toEqual(
+        expect(new Experiments(config, { user_id: 2 }).getCohort('experiment_1')).toEqual(
+            'control'
+        );
+        expect(new Experiments(config, { user_id: 1 }).getCohort('experiment_1')).toEqual(
             'test_force_include'
         );
         expect(
-            getCohort(config, 'experiment_1', { user_id: 2, user_type: 'intelligence' })
+            new Experiments(config, { user_id: 2, user_type: 'free' }).getCohort('experiment_1')
+        ).toEqual('test_force_include');
+        expect(
+            new Experiments(config, { user_id: 2, user_type: 'intelligence' }).getCohort(
+                'experiment_1'
+            )
         ).toEqual('control');
         expect(
-            getCohort(config, 'experiment_1', { user_id: 2, email: 'control@example.com' })
+            new Experiments(config, { user_id: 2, email: 'control@example.com' }).getCohort(
+                'experiment_1'
+            )
         ).toEqual('test_force_include');
-        expect(getCohort(config, 'experiment_1', { user_id: 2, email: 'control@a.com' })).toEqual(
-            'control'
-        );
         expect(
-            getCohort(config, 'experiment_1', { user_id: 2, email_domain: 'example.com' })
+            new Experiments(config, { user_id: 2, email: 'control@a.com' }).getCohort(
+                'experiment_1'
+            )
+        ).toEqual('control');
+        expect(
+            new Experiments(config, { user_id: 2, email_domain: 'example.com' }).getCohort(
+                'experiment_1'
+            )
         ).toEqual('test_force_include');
-        expect(getCohort(config, 'experiment_1', { user_id: 2, email_domain: 'a.com' })).toEqual(
-            'control'
-        );
+        expect(
+            new Experiments(config, { user_id: 2, email_domain: 'a.com' }).getCohort('experiment_1')
+        ).toEqual('control');
         expect(
             Array(20)
                 .fill(0)
-                .map((_, i) => [i + 3, getCohort(config, 'experiment_1', { user_id: i + 3 })])
+                .map((_, i) => [
+                    i + 3,
+                    new Experiments(config, { user_id: i + 3 }).getCohort('experiment_1'),
+                ])
         ).toMatchSnapshot();
 
-        expect(getCohort(config, 'experiment_2', { user_id: 1 })).toEqual('control');
-        expect(getCohort(config, 'experiment_2', { user_id: 2 })).toEqual('test_force_include');
-        expect(getCohort(config, 'experiment_2', { user_id: 1, user_type: 'free' })).toEqual(
+        expect(new Experiments(config, { user_id: 1 }).getCohort('experiment_2')).toEqual(
             'control'
         );
+        expect(new Experiments(config, { user_id: 2 }).getCohort('experiment_2')).toEqual(
+            'test_force_include'
+        );
         expect(
-            getCohort(config, 'experiment_2', { user_id: 1, user_type: 'intelligence' })
+            new Experiments(config, { user_id: 1, user_type: 'free' }).getCohort('experiment_2')
+        ).toEqual('control');
+        expect(
+            new Experiments(config, { user_id: 1, user_type: 'intelligence' }).getCohort(
+                'experiment_2'
+            )
         ).toEqual('test_force_include');
         expect(
-            getCohort(config, 'experiment_2', { user_id: 1, email: 'control@example.com' })
+            new Experiments(config, { user_id: 1, email: 'control@example.com' }).getCohort(
+                'experiment_2'
+            )
         ).toEqual('control');
-        expect(getCohort(config, 'experiment_2', { user_id: 1, email: 'control@a.com' })).toEqual(
-            'test_force_include'
-        );
         expect(
-            getCohort(config, 'experiment_2', { user_id: 1, email_domain: 'example.com' })
+            new Experiments(config, { user_id: 1, email: 'control@a.com' }).getCohort(
+                'experiment_2'
+            )
+        ).toEqual('test_force_include');
+        expect(
+            new Experiments(config, { user_id: 1, email_domain: 'example.com' }).getCohort(
+                'experiment_2'
+            )
         ).toEqual('control');
-        expect(getCohort(config, 'experiment_2', { user_id: 1, email_domain: 'a.com' })).toEqual(
-            'test_force_include'
-        );
+        expect(
+            new Experiments(config, { user_id: 1, email_domain: 'a.com' }).getCohort('experiment_2')
+        ).toEqual('test_force_include');
         expect(
             Array(20)
                 .fill(0)
-                .map((_, i) => [i + 3, getCohort(config, 'experiment_2', { user_id: i + 3 })])
+                .map((_, i) => [
+                    i + 3,
+                    new Experiments(config, { user_id: i + 3 }).getCohort('experiment_2'),
+                ])
         ).toMatchSnapshot();
 
         expect(
-            getCohort(config, 'experiment_3', { user_id: 1, email_domain: 'example.com' })
+            new Experiments(config, { user_id: 1, email_domain: 'example.com' }).getCohort(
+                'experiment_3'
+            )
         ).toEqual('control');
+    });
+
+    it('custom hash function', () => {
+        expect(
+            new Experiments(
+                config,
+                {
+                    user_id: 1,
+                    email: 'a@example.com',
+                },
+                () => ({ a: 'aaa', b: 'bbb' })
+            ).hashedProfile
+        ).toEqual({
+            a: 'aaa',
+            b: 'bbb',
+        });
     });
 });

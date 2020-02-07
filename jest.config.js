@@ -13,6 +13,7 @@ module.exports = {
             statements: 100,
         },
     },
+    coveragePathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/packages/[^/]+/lib/'],
     globals: {
         skipBabel: true,
     },

@@ -13,10 +13,23 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc --pretty"
+    "build": "tsc --pretty --declaration"
   },
   "keywords": [],
   "dependencies": {
+    "@appannie/ab-testing": "^0.0.0",
     "react": "^16.12.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^9.4.0",
+    "@testing-library/react-hooks": "^3.2.1",
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
+    "@types/testing-library__react": "^9.1.2",
+    "@types/testing-library__react-hooks": "^3.2.0",
+    "eslint-plugin-jest": "^23.6.0",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "react-test-renderer": "^16.12.0"
   }
 }

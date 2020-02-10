@@ -53,16 +53,18 @@ export class Experiments {
         const userSegmentNum = getModuloValue(experimentName, this.profile.user_id);
         let allocatedCohort = 'control';
         for (const cohort of experimentConfig?.cohorts || []) {
-            for (const allocation of cohort.allocation || []) {
-                if (allocation[0] <= userSegmentNum && userSegmentNum < allocation[1]) {
-                    allocatedCohort = cohort.name;
-                }
-            }
             if (cohort.force_include) {
                 for (const hashedProfileKey in cohort.force_include) {
                     const hashedProfileVal = this.hashedProfile[hashedProfileKey];
                     if (cohort.force_include[hashedProfileKey].includes(hashedProfileVal)) {
                         return cohort.name;
+                    }
+                }
+            }
+            if (allocatedCohort === 'control') {
+                for (const allocation of cohort.allocation || []) {
+                    if (allocation[0] <= userSegmentNum && userSegmentNum < allocation[1]) {
+                        allocatedCohort = cohort.name;
                     }
                 }
             }

@@ -1,4 +1,3 @@
-import 'ts-polyfill/lib/es2019-object';
 import crc32 from 'fast-crc32c';
 
 type HashObject = (

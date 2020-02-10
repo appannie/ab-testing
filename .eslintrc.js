@@ -6,8 +6,14 @@ module.exports = {
         ecmaVersion: 2018,
         sourceType: 'module',
     },
-    extends: ['plugin:@typescript-eslint/recommended', 'prettier', 'prettier/@typescript-eslint'],
-    plugins: ['@typescript-eslint', 'prettier'],
+    extends: [
+        'plugin:@typescript-eslint/recommended',
+        'prettier',
+        'prettier/@typescript-eslint',
+        'eslint:recommended',
+        'plugin:react/recommended',
+    ],
+    plugins: ['@typescript-eslint', 'prettier', 'react-hooks'],
     rules: {
         'prettier/prettier': 'error',
         'sort-keys': 'off',
@@ -36,6 +42,10 @@ module.exports = {
         ],
         '@typescript-eslint/no-parameter-properties': 'error',
         '@typescript-eslint/no-unused-vars': 'error',
+        'react/display-name': 'off',
+        'react/prop-types': 'off',
+        'react-hooks/rules-of-hooks': 'error',
+        'react-hooks/exhaustive-deps': 'warn',
     },
     env: {
         browser: true,

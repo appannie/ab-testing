@@ -1,5 +1,5 @@
 {
-  "name": "@appannie/ab-testing",
+  "name": "@appannie/ab-testing-hash-object",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -17,9 +17,10 @@
   },
   "keywords": [],
   "dependencies": {
-    "fast-crc32c": "^2.0.0"
+    "create-hash": "^1.2.0",
+    "ts-polyfill": "^3.7.5"
   },
   "devDependencies": {
-    "@appannie/ab-testing-hash-object": "^0.0.0"
+    "@types/create-hash": "^1.2.2"
   }
 }

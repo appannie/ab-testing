@@ -17,11 +17,10 @@
   },
   "keywords": [],
   "dependencies": {
-    "create-hash": "^1.2.0",
     "fast-crc32c": "^2.0.0",
     "ts-polyfill": "^3.7.5"
   },
   "devDependencies": {
-    "@types/create-hash": "^1.2.2"
+    "@appannie/ab-testing-hash-object": "^0.0.0"
   }
 }

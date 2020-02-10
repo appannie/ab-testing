@@ -11,7 +11,7 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "strict": true,
-    "declaration": false,
+    "declaration": true,
     "downlevelIteration": true,
     "typeRoots": ["./node_modules/@types", "./@types"]
   },

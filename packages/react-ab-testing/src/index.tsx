@@ -1,24 +1,23 @@
 import React, { ReactNode } from 'react';
-import Experiments, { ABTestingConfig, UserProfile, HashObject } from '@appannie/ab-testing';
+import Experiments, { ABTestingConfig } from '@appannie/ab-testing';
 
 const ABTestingContext = React.createContext<{ getCohort: (experimentName: string) => string }>({
     getCohort: () => 'control',
 });
 
-export function ABTestingController(props: {
+export const ABTestingController: React.FunctionComponent<{
     config: ABTestingConfig;
-    user: UserProfile;
-    hashObject: HashObject;
+    userId: number;
+    userProfile: { [key: string]: string };
     children: ReactNode;
-}): JSX.Element {
-    const experiments = React.useMemo(
-        () => new Experiments(props.config, props.user, props.hashObject),
-        [props.config, props.hashObject, props.user]
-    );
-    return (
-        <ABTestingContext.Provider value={experiments}>{props.children}</ABTestingContext.Provider>
-    );
-}
+}> = ({ config, userId, userProfile, children }) => {
+    const experiments = React.useMemo(() => new Experiments(config, userId, userProfile), [
+        config,
+        userId,
+        userProfile,
+    ]);
+    return <ABTestingContext.Provider value={experiments}>{children}</ABTestingContext.Provider>;
+};
 
 export function useCohortOf(experimentName: string): string {
     const experiments = React.useContext(ABTestingContext);

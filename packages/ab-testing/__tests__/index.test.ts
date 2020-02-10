@@ -72,133 +72,141 @@ describe('ab-testing module', () => {
 
     it('match cohorts', () => {
         expect(
-            new Experiments(config, { user_id: 2 }, hashObject).getCohort('experiment_1')
+            new Experiments(config, 2, hashObject({ user_id: 2 }, config.salt)).getCohort(
+                'experiment_1'
+            )
         ).toEqual('control');
         expect(
-            new Experiments(config, { user_id: 1 }, hashObject).getCohort('experiment_1')
-        ).toEqual('test_force_include');
-        expect(
-            new Experiments(config, { user_id: 2, user_type: 'free' }, hashObject).getCohort(
+            new Experiments(config, 1, hashObject({ user_id: 1 }, config.salt)).getCohort(
                 'experiment_1'
             )
         ).toEqual('test_force_include');
         expect(
             new Experiments(
                 config,
-                { user_id: 2, user_type: 'intelligence' },
-                hashObject
+                2,
+                hashObject({ user_id: 2, user_type: 'free' }, config.salt)
+            ).getCohort('experiment_1')
+        ).toEqual('test_force_include');
+        expect(
+            new Experiments(
+                config,
+                2,
+                hashObject({ user_id: 2, user_type: 'intelligence' }, config.salt)
             ).getCohort('experiment_1')
         ).toEqual('control');
         expect(
             new Experiments(
                 config,
-                { user_id: 2, email: 'control@example.com' },
-                hashObject
+                2,
+                hashObject({ user_id: 2, email: 'control@example.com' }, config.salt)
             ).getCohort('experiment_1')
         ).toEqual('test_force_include');
         expect(
-            new Experiments(config, { user_id: 2, email: 'control@a.com' }, hashObject).getCohort(
-                'experiment_1'
-            )
+            new Experiments(
+                config,
+                2,
+                hashObject({ user_id: 2, email: 'control@a.com' }, config.salt)
+            ).getCohort('experiment_1')
         ).toEqual('control');
         expect(
             new Experiments(
                 config,
-                { user_id: 2, email_domain: 'example.com' },
-                hashObject
+                2,
+                hashObject({ user_id: 2, email_domain: 'example.com' }, config.salt)
             ).getCohort('experiment_1')
         ).toEqual('test_force_include');
         expect(
-            new Experiments(config, { user_id: 2, email_domain: 'a.com' }, hashObject).getCohort(
-                'experiment_1'
-            )
+            new Experiments(
+                config,
+                2,
+                hashObject({ user_id: 2, email_domain: 'a.com' }, config.salt)
+            ).getCohort('experiment_1')
         ).toEqual('control');
         expect(
             Array(20)
                 .fill(0)
                 .map((_, i) => [
                     i + 3,
-                    new Experiments(config, { user_id: i + 3 }, hashObject).getCohort(
-                        'experiment_1'
-                    ),
+                    new Experiments(
+                        config,
+                        i + 3,
+                        hashObject({ user_id: i + 3 }, config.salt)
+                    ).getCohort('experiment_1'),
                 ])
         ).toMatchSnapshot();
 
         expect(
-            new Experiments(config, { user_id: 1 }, hashObject).getCohort('experiment_2')
-        ).toEqual('control');
-        expect(
-            new Experiments(config, { user_id: 2 }, hashObject).getCohort('experiment_2')
-        ).toEqual('test_force_include');
-        expect(
-            new Experiments(config, { user_id: 1, user_type: 'free' }, hashObject).getCohort(
+            new Experiments(config, 1, hashObject({ user_id: 1 }, config.salt)).getCohort(
                 'experiment_2'
             )
         ).toEqual('control');
         expect(
-            new Experiments(
-                config,
-                { user_id: 1, user_type: 'intelligence' },
-                hashObject
-            ).getCohort('experiment_2')
-        ).toEqual('test_force_include');
-        expect(
-            new Experiments(
-                config,
-                { user_id: 1, email: 'control@example.com' },
-                hashObject
-            ).getCohort('experiment_2')
-        ).toEqual('control');
-        expect(
-            new Experiments(config, { user_id: 1, email: 'control@a.com' }, hashObject).getCohort(
+            new Experiments(config, 2, hashObject({ user_id: 2 }, config.salt)).getCohort(
                 'experiment_2'
             )
         ).toEqual('test_force_include');
         expect(
             new Experiments(
                 config,
-                { user_id: 1, email_domain: 'example.com' },
-                hashObject
+                1,
+                hashObject({ user_id: 1, user_type: 'free' }, config.salt)
             ).getCohort('experiment_2')
         ).toEqual('control');
         expect(
-            new Experiments(config, { user_id: 1, email_domain: 'a.com' }, hashObject).getCohort(
-                'experiment_2'
-            )
+            new Experiments(
+                config,
+                1,
+                hashObject({ user_id: 1, user_type: 'intelligence' }, config.salt)
+            ).getCohort('experiment_2')
+        ).toEqual('test_force_include');
+        expect(
+            new Experiments(
+                config,
+                1,
+                hashObject({ user_id: 1, email: 'control@example.com' }, config.salt)
+            ).getCohort('experiment_2')
+        ).toEqual('control');
+        expect(
+            new Experiments(
+                config,
+                1,
+                hashObject({ user_id: 1, email: 'control@a.com' }, config.salt)
+            ).getCohort('experiment_2')
+        ).toEqual('test_force_include');
+        expect(
+            new Experiments(
+                config,
+                1,
+                hashObject({ user_id: 1, email_domain: 'example.com' }, config.salt)
+            ).getCohort('experiment_2')
+        ).toEqual('control');
+        expect(
+            new Experiments(
+                config,
+                1,
+                hashObject({ user_id: 1, email_domain: 'a.com' }, config.salt)
+            ).getCohort('experiment_2')
         ).toEqual('test_force_include');
         expect(
             Array(20)
                 .fill(0)
                 .map((_, i) => [
                     i + 3,
-                    new Experiments(config, { user_id: i + 3 }, hashObject).getCohort(
-                        'experiment_2'
-                    ),
+                    new Experiments(
+                        config,
+                        i + 3,
+                        hashObject({ user_id: i + 3 }, config.salt)
+                    ).getCohort('experiment_2'),
                 ])
         ).toMatchSnapshot();
 
         expect(
             new Experiments(
                 config,
-                { user_id: 1, email_domain: 'example.com' },
-                hashObject
+                1,
+                hashObject({ user_id: 1, email_domain: 'example.com' }, config.salt)
             ).getCohort('experiment_3')
         ).toEqual('control');
-    });
-
-    it('custom hash function', () => {
-        expect(
-            new Experiments(
-                config,
-                {
-                    user_id: 1,
-                    email: 'a@example.com',
-                },
-                () => ({ a: 'aaa', b: 'bbb' })
-            ).hashedProfile
-        ).toEqual({
-            a: 'aaa',
-            b: 'bbb',
-        });
     });
 });

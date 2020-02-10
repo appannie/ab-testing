@@ -85,8 +85,8 @@ describe('AB Testing', () => {
                 wrapper: ({ children }) => (
                     <ABTestingController
                         config={config}
-                        user={{ user_id: 1 }}
-                        hashObject={hashObject}
+                        userId={1}
+                        userProfile={hashObject({ user_id: 1 }, config.salt)}
                     >
                         {children}
                     </ABTestingController>
@@ -99,8 +99,8 @@ describe('AB Testing', () => {
                 wrapper: ({ children }) => (
                     <ABTestingController
                         config={config}
-                        user={{ user_id: 2 }}
-                        hashObject={hashObject}
+                        userId={2}
+                        userProfile={hashObject({ user_id: 2 }, config.salt)}
                     >
                         {children}
                     </ABTestingController>

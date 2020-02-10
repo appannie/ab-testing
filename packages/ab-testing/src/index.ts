@@ -21,13 +21,6 @@ export type ABTestingConfig = {
     experiments: Experiment[];
 };
 
-export type UserProfile = {
-    user_id: number;
-    user_type?: string;
-    email?: string;
-    email_domain?: string;
-};
-
 function getModuloValue(experiment: string, userId: number): number {
     return crc32.calculate(String(userId), crc32.calculate(experiment)) % 100;
 }

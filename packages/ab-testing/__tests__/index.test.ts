@@ -16,7 +16,6 @@ describe('ab-testing module', () => {
                             [0, 10],
                             [90, 100],
                         ],
-                        force_include: {},
                     },
                     {
                         name: 'test_force_include',
@@ -47,7 +46,6 @@ describe('ab-testing module', () => {
                             [10, 20],
                             [80, 90],
                         ],
-                        force_include: {},
                     },
                     {
                         name: 'test_force_include',

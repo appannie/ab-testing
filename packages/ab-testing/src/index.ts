@@ -1,6 +1,6 @@
 import crc32 from 'fast-crc32c';
 
-type HashObject = (
+export type HashObject = (
     object: { [key: string]: string | number | undefined },
     salt: string
 ) => { [s: string]: string };

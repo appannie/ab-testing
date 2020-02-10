@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React from 'react';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react-hooks';
 import { ABTestingConfig } from '@appannie/ab-testing';
+import hashObject from '@appannie/ab-testing-hash-object';
 import { ABTestingController, useCohortOf } from '../src';
 
 describe('AB Testing', () => {
@@ -82,7 +83,11 @@ describe('AB Testing', () => {
         expect(
             renderHook(() => useCohortOf('experiment_1'), {
                 wrapper: ({ children }) => (
-                    <ABTestingController config={config} user={{ user_id: 1 }}>
+                    <ABTestingController
+                        config={config}
+                        user={{ user_id: 1 }}
+                        hashObject={hashObject}
+                    >
                         {children}
                     </ABTestingController>
                 ),
@@ -92,7 +97,11 @@ describe('AB Testing', () => {
         expect(
             renderHook(() => useCohortOf('experiment_1'), {
                 wrapper: ({ children }) => (
-                    <ABTestingController config={config} user={{ user_id: 2 }}>
+                    <ABTestingController
+                        config={config}
+                        user={{ user_id: 2 }}
+                        hashObject={hashObject}
+                    >
                         {children}
                     </ABTestingController>
                 ),

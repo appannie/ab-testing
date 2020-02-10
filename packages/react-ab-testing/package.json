@@ -18,10 +18,10 @@
   "keywords": [],
   "dependencies": {
     "@appannie/ab-testing": "^0.0.0",
-    "@appannie/ab-testing-hash-object": "^0.0.0",
     "react": "^16.12.0"
   },
   "devDependencies": {
+    "@appannie/ab-testing-hash-object": "^0.0.0",
     "@testing-library/react": "^9.4.0",
     "@testing-library/react-hooks": "^3.2.1",
     "@types/react": "^16.9.19",

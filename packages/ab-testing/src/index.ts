@@ -1,12 +1,7 @@
 import crc32 from 'fast-crc32c';
 
-type HashObject = (
-    object: { [key: string]: string | number | undefined },
-    salt: string
-) => { [s: string]: string };
-
 type ForceInclude = {
-    [hashedKey: string]: string[];
+    [key: string]: string[];
 };
 
 type Cohort = {
@@ -39,24 +34,27 @@ function getModuloValue(experiment: string, userId: number): number {
 
 export class Experiments {
     config: ABTestingConfig;
-    profile: UserProfile;
-    hashedProfile: ReturnType<HashObject>;
+    userId: number;
+    userProfile: { [s: string]: string };
 
-    constructor(config: ABTestingConfig, profile: UserProfile, hashProfile: HashObject) {
+    constructor(config: ABTestingConfig, userId: number, userProfile: { [s: string]: string }) {
         this.config = config;
-        this.profile = profile;
-        this.hashedProfile = hashProfile(profile, config.salt);
+        this.userId = userId;
+        this.userProfile = userProfile;
     }
 
     getCohort = (experimentName: string): string => {
         const experimentConfig = this.config.experiments.find(e => e.name === experimentName);
-        const userSegmentNum = getModuloValue(experimentName, this.profile.user_id);
+        if (!experimentConfig) {
+            console.error(`unrecognized ab testing experiment name: ${experimentName}`);
+            return 'control';
+        }
+        const userSegmentNum = getModuloValue(experimentName, this.userId);
         let allocatedCohort = 'control';
-        for (const cohort of experimentConfig?.cohorts || []) {
+        for (const cohort of experimentConfig.cohorts) {
             if (cohort.force_include) {
-                for (const hashedProfileKey in cohort.force_include) {
-                    const hashedProfileVal = this.hashedProfile[hashedProfileKey];
-                    if (cohort.force_include[hashedProfileKey].includes(hashedProfileVal)) {
+                for (const key in cohort.force_include) {
+                    if (cohort.force_include[key].includes(this.userProfile[key])) {
                         return cohort.name;
                     }
                 }

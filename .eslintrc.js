@@ -3,8 +3,11 @@
 module.exports = {
     parser: '@typescript-eslint/parser',
     parserOptions: {
-        ecmaVersion: 2018,
+        ecmaVersion: 2019,
         sourceType: 'module',
+        ecmaFeatures: {
+            jsx: true,
+        },
     },
     extends: [
         'plugin:@typescript-eslint/recommended',
@@ -51,5 +54,6 @@ module.exports = {
         browser: true,
         node: true,
         jest: true,
+        es6: true,
     },
 };

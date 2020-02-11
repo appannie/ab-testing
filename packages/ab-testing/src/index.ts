@@ -1,7 +1,7 @@
 import crc32 from 'fast-crc32c';
 
 type ForceInclude = {
-    [key: string]: string[];
+    [hashedKey: string]: string[];
 };
 
 type Cohort = {
@@ -26,41 +26,68 @@ function getModuloValue(experiment: string, userId: number): number {
 }
 
 export class Experiments {
-    config: ABTestingConfig;
+    experiments: {
+        [experimentName: string]: {
+            forceInclude: Map<string, string>;
+            allocations: {
+                [cohortName: string]: [number, number][];
+            };
+        };
+    };
     userId: number;
-    userProfile: { [s: string]: string };
+    forceIncludeKeys: string[];
 
-    constructor(config: ABTestingConfig, userId: number, userProfile: { [s: string]: string }) {
-        this.config = config;
+    constructor(config: ABTestingConfig, userId: number, userProfile: { [key: string]: string }) {
         this.userId = userId;
-        this.userProfile = userProfile;
+        this.forceIncludeKeys = [];
+        this.experiments = {};
+
+        for (const [key, value] of Object.entries(userProfile)) {
+            this.forceIncludeKeys.push(key + value);
+        }
+
+        config.experiments.forEach(experiment => {
+            const forceInclude = new Map<string, string>();
+            const allocations: { [cohortName: string]: [number, number][] } = {};
+            experiment.cohorts.forEach(cohort => {
+                if (cohort.force_include) {
+                    for (const forceIncludeKey in cohort.force_include) {
+                        cohort.force_include[forceIncludeKey].forEach(forceIncludeVal =>
+                            forceInclude.set(forceIncludeKey + forceIncludeVal, cohort.name)
+                        );
+                    }
+                }
+                if (cohort.allocation) {
+                    allocations[cohort.name] = cohort.allocation;
+                }
+            });
+            this.experiments[experiment.name] = {
+                forceInclude,
+                allocations,
+            };
+        });
     }
 
     getCohort = (experimentName: string): string => {
-        const experimentConfig = this.config.experiments.find(e => e.name === experimentName);
-        if (!experimentConfig) {
-            console.error(`unrecognized ab testing experiment name: ${experimentName}`);
-            return 'control';
-        }
-        const userSegmentNum = getModuloValue(experimentName, this.userId);
-        let allocatedCohort = 'control';
-        for (const cohort of experimentConfig.cohorts) {
-            if (cohort.force_include) {
-                for (const key in cohort.force_include) {
-                    if (cohort.force_include[key].includes(this.userProfile[key])) {
-                        return cohort.name;
-                    }
+        if (experimentName in this.experiments) {
+            for (const forceIncludeKey of this.forceIncludeKeys) {
+                const forceIncludeCohort = this.experiments[experimentName].forceInclude.get(
+                    forceIncludeKey
+                );
+                if (forceIncludeCohort) {
+                    return forceIncludeCohort;
                 }
             }
-            if (allocatedCohort === 'control') {
-                for (const allocation of cohort.allocation || []) {
+            const userSegmentNum = getModuloValue(experimentName, this.userId);
+            for (const cohortName in this.experiments[experimentName].allocations) {
+                for (const allocation of this.experiments[experimentName].allocations[cohortName]) {
                     if (allocation[0] <= userSegmentNum && userSegmentNum < allocation[1]) {
-                        allocatedCohort = cohort.name;
+                        return cohortName;
                     }
                 }
             }
         }
-        return allocatedCohort;
+        return 'control';
     };
 }
 

@@ -1,0 +1,34 @@
+//@flow
+declare type ForceInclude = {
+    [key: string]: string[],
+};
+declare type Cohort = {
+    name: string,
+    allocation?: [number, number][],
+    force_include?: ForceInclude,
+};
+declare type Experiment = {
+    name: string,
+    cohorts: Cohort[],
+};
+export type ABTestingConfig = {
+    salt: string,
+    version: '1.0',
+    experiments: Experiment[],
+};
+declare export class Experiments {
+    config: ABTestingConfig;
+    userId: number;
+    userProfile: {
+        [s: string]: string,
+    };
+    constructor(
+        config: ABTestingConfig,
+        userId: number,
+        userProfile: {
+            [s: string]: string,
+        }
+    ): Experiments;
+    getCohort: (experimentName: string) => string;
+}
+declare export default typeof Experiments;

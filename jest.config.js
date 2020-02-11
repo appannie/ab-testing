@@ -4,7 +4,7 @@ module.exports = {
     testPathIgnorePatterns: ['/node_modules/', '/output/'],
     collectCoverage: true,
     coverageDirectory: 'coverage',
-    coverageReporters: ['lcov', 'html'],
+    coverageReporters: ['lcov', 'html', 'text'],
     coverageThreshold: {
         global: {
             branches: 100,
@@ -13,6 +13,7 @@ module.exports = {
             statements: 100,
         },
     },
+    coveragePathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/packages/[^/]+/lib/'],
     globals: {
         skipBabel: true,
     },

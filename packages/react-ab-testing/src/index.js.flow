@@ -1,0 +1,13 @@
+//@flow
+import * as React from 'react';
+import { type ABTestingConfig } from '@appannie/ab-testing';
+export type { ABTestingConfig } from '@appannie/ab-testing';
+declare export var ABTestingController: React.ComponentType<{
+    config: ABTestingConfig,
+    userId: number,
+    userProfile: {
+        [key: string]: string,
+    },
+    children: React.Node,
+}>;
+declare export function useCohortOf(experimentName: string): string;

@@ -1,0 +1,20 @@
+//@flow
+declare export function hashWithSalt(value: any, salt: string): string;
+declare export function hashArray(values: any[], salt: string): string[];
+declare export function hashObject(
+    obj: {
+        [key: string]: string | number | void,
+    },
+    salt: string
+): {
+    [key: string]: string,
+};
+declare export function hashObject(
+    obj: {
+        [key: string]: string[] | number[] | void,
+    },
+    salt: string
+): {
+    [key: string]: string[],
+};
+declare export default typeof hashObject;

@@ -1,6 +1,8 @@
 import React, { ReactNode } from 'react';
 import Experiments, { ABTestingConfig } from '@appannie/ab-testing';
 
+export { ABTestingConfig };
+
 const ABTestingContext = React.createContext<{ getCohort: (experimentName: string) => string }>({
     getCohort: () => 'control',
 });

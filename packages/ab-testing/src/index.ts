@@ -1,4 +1,4 @@
-import crc32 from 'fast-crc32c';
+import crc32 from 'fast-crc32c/impls/js_crc32c';
 
 type ForceInclude = {
     [key: string]: string[];

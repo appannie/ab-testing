@@ -40,7 +40,7 @@
     "lint": "eslint \"packages/**/{src,__tests__}/**/*.{ts,tsx}\" -f eslint-formatter-friendly",
     "test": "jest",
     "build": "lerna run build",
-    "bump": "lerna version --conventional-commits"
+    "prepublishOnly": "lerna run build"
   },
   "repository": "https://github.com/appannie/ab-testing.git",
   "dependencies": {}

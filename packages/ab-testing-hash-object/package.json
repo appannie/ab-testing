@@ -17,8 +17,7 @@
   },
   "keywords": [],
   "dependencies": {
-    "create-hash": "^1.2.0",
-    "ts-polyfill": "^3.7.5"
+    "create-hash": "^1.2.0"
   },
   "devDependencies": {
     "@types/create-hash": "^1.2.2"

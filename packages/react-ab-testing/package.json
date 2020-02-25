@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "files": [
     "lib"
@@ -33,7 +33,7 @@
     "eslint-plugin-jest": "^23.6.0",
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^2.3.0",
-    "react-test-renderer": "^16.12.0",
-    "react": "^16.12.0"
+    "react": "^16.12.0",
+    "react-test-renderer": "^16.12.0"
   }
 }

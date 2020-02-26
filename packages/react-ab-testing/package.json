@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "files": [
     "lib"
@@ -17,13 +17,13 @@
   },
   "keywords": [],
   "dependencies": {
-    "@appannie/ab-testing": "^1.0.3"
+    "@appannie/ab-testing": "^1.0.5"
   },
   "peerDependencies": {
     "react": "^16.0.0"
   },
   "devDependencies": {
-    "@appannie/ab-testing-hash-object": "^1.0.3",
+    "@appannie/ab-testing-hash-object": "^1.0.5",
     "@testing-library/react": "^9.4.0",
     "@testing-library/react-hooks": "^3.2.1",
     "@types/react": "^16.9.19",

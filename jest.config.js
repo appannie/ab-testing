@@ -1,5 +1,6 @@
 module.exports = {
     preset: 'ts-jest',
+    setupFiles: ['./jest.setup.js'],
     testEnvironment: 'node',
     testPathIgnorePatterns: ['/node_modules/', '/output/'],
     collectCoverage: true,

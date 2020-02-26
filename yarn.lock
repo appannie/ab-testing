@@ -7445,10 +7445,10 @@ ts-jest@^25.2.0:
     semver "^5.5"
     yargs-parser "10.x"
 
-ts-polyfill@^3.7.5:
-  version "3.7.5"
-  resolved "https://registry.yarnpkg.com/ts-polyfill/-/ts-polyfill-3.7.5.tgz#c8d0fb9e771857cd0c910f049f06adb5c94c0686"
-  integrity sha512-KJQ+5JQQoiy7LN1K7SQZj8+J5k4zDzZp20KjaR4s4M93eIbHT760IhoVcQBgwrgEJPip0InaxBTP0JWZ6cNopQ==
+ts-polyfill@^3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/ts-polyfill/-/ts-polyfill-3.8.2.tgz#7375c6b6a4ae074af4f6200ff6c0d32dbbd113cb"
+  integrity sha512-x0M4kx+FObO88sedZ1zld+YX+GvcgaYSVnHspNftI4GRT86FTBy41O89ztKfvue0XtaKpb8WBpPZsh82hy3Ncw==
   dependencies:
     core-js "^3.6.4"
 

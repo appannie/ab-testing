@@ -1,4 +1,3 @@
-import 'ts-polyfill/lib/es2019-object';
 import createHash from 'create-hash';
 
 export function hashWithSalt(value: unknown, salt: string): string {

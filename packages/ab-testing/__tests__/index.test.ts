@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import * as ABTesting from '../src';
+import Experiments, { ABTestingConfig } from '../src';
 import { hashObject } from '@appannie/ab-testing-hash-object';
 
 describe('ab-testing module', () => {
     const salt = '4a9120a277117afeade34305c258a2f1';
-    const config: ABTesting.ABTestingConfig = {
+    const config: ABTestingConfig = {
         version: '1.0',
         experiments: [
             {
@@ -63,52 +63,52 @@ describe('ab-testing module', () => {
 
     it('match cohorts', () => {
         expect(
-            new ABTesting.Experiments(config, 2, hashObject({ user_id: 2 }, config.salt)).getCohort(
+            new Experiments(config, 2, hashObject({ user_id: 2 }, config.salt)).getCohort(
                 'experiment_1'
             )
         ).toEqual('control');
         expect(
-            new ABTesting.Experiments(config, 1, hashObject({ user_id: 1 }, config.salt)).getCohort(
+            new Experiments(config, 1, hashObject({ user_id: 1 }, config.salt)).getCohort(
                 'experiment_1'
             )
         ).toEqual('test_force_include');
         expect(
-            new ABTesting.Experiments(
+            new Experiments(
                 config,
                 2,
                 hashObject({ user_id: 2, user_type: 'free' }, config.salt)
             ).getCohort('experiment_1')
         ).toEqual('test_force_include');
         expect(
-            new ABTesting.Experiments(
+            new Experiments(
                 config,
                 2,
                 hashObject({ user_id: 2, user_type: 'intelligence' }, config.salt)
             ).getCohort('experiment_1')
         ).toEqual('control');
         expect(
-            new ABTesting.Experiments(
+            new Experiments(
                 config,
                 2,
                 hashObject({ user_id: 2, email: 'control@example.com' }, config.salt)
             ).getCohort('experiment_1')
         ).toEqual('test_force_include');
         expect(
-            new ABTesting.Experiments(
+            new Experiments(
                 config,
                 2,
                 hashObject({ user_id: 2, email: 'control@a.com' }, config.salt)
             ).getCohort('experiment_1')
         ).toEqual('control');
         expect(
-            new ABTesting.Experiments(
+            new Experiments(
                 config,
                 2,
                 hashObject({ user_id: 2, email_domain: 'example.com' }, config.salt)
             ).getCohort('experiment_1')
         ).toEqual('test_force_include');
         expect(
-            new ABTesting.Experiments(
+            new Experiments(
                 config,
                 2,
                 hashObject({ user_id: 2, email_domain: 'a.com' }, config.salt)
@@ -119,7 +119,7 @@ describe('ab-testing module', () => {
                 .fill(0)
                 .map((_, i) => [
                     i + 3,
-                    new ABTesting.Experiments(
+                    new Experiments(
                         config,
                         i + 3,
                         hashObject({ user_id: i + 3 }, config.salt)
@@ -128,52 +128,52 @@ describe('ab-testing module', () => {
         ).toMatchSnapshot();
 
         expect(
-            new ABTesting.Experiments(config, 1, hashObject({ user_id: 1 }, config.salt)).getCohort(
+            new Experiments(config, 1, hashObject({ user_id: 1 }, config.salt)).getCohort(
                 'experiment_2'
             )
         ).toEqual('control');
         expect(
-            new ABTesting.Experiments(config, 2, hashObject({ user_id: 2 }, config.salt)).getCohort(
+            new Experiments(config, 2, hashObject({ user_id: 2 }, config.salt)).getCohort(
                 'experiment_2'
             )
         ).toEqual('test_force_include');
         expect(
-            new ABTesting.Experiments(
+            new Experiments(
                 config,
                 1,
                 hashObject({ user_id: 1, user_type: 'free' }, config.salt)
             ).getCohort('experiment_2')
         ).toEqual('control');
         expect(
-            new ABTesting.Experiments(
+            new Experiments(
                 config,
                 1,
                 hashObject({ user_id: 1, user_type: 'intelligence' }, config.salt)
             ).getCohort('experiment_2')
         ).toEqual('test_force_include');
         expect(
-            new ABTesting.Experiments(
+            new Experiments(
                 config,
                 1,
                 hashObject({ user_id: 1, email: 'control@example.com' }, config.salt)
             ).getCohort('experiment_2')
         ).toEqual('control');
         expect(
-            new ABTesting.Experiments(
+            new Experiments(
                 config,
                 1,
                 hashObject({ user_id: 1, email: 'control@a.com' }, config.salt)
             ).getCohort('experiment_2')
         ).toEqual('test_force_include');
         expect(
-            new ABTesting.Experiments(
+            new Experiments(
                 config,
                 1,
                 hashObject({ user_id: 1, email_domain: 'example.com' }, config.salt)
             ).getCohort('experiment_2')
         ).toEqual('control');
         expect(
-            new ABTesting.Experiments(
+            new Experiments(
                 config,
                 1,
                 hashObject({ user_id: 1, email_domain: 'a.com' }, config.salt)
@@ -184,7 +184,7 @@ describe('ab-testing module', () => {
                 .fill(0)
                 .map((_, i) => [
                     i + 3,
-                    new ABTesting.Experiments(
+                    new Experiments(
                         config,
                         i + 3,
                         hashObject({ user_id: i + 3 }, config.salt)
@@ -193,7 +193,7 @@ describe('ab-testing module', () => {
         ).toMatchSnapshot();
 
         expect(
-            new ABTesting.Experiments(
+            new Experiments(
                 config,
                 1,
                 hashObject({ user_id: 1, email_domain: 'example.com' }, config.salt)
@@ -202,7 +202,7 @@ describe('ab-testing module', () => {
     });
 
     it('match results is cached', () => {
-        const experiment = new ABTesting.Experiments(
+        const experiment = new Experiments(
             config,
             1,
             hashObject({ user_id: 1, user_type: 'intelligence' }, config.salt)

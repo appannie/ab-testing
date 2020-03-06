@@ -1,6 +1,10 @@
+*.pyc
 *.log
 .npmrc
 .DS_Store
+.idea
 node_modules
 coverage
 packages/*/lib
+*.egg-info
+

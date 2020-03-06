@@ -115,6 +115,8 @@ jobs:
       - py
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
       - uses: actions/setup-node@v1
         with:
           node-version: 12
@@ -124,11 +126,7 @@ jobs:
           python-version: 3.8
       - run: |
           git config --global user.name "GitHub Actions"
-          git remote remove origin
-          git remote add origin "https://$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
           git fetch --depth=1 origin $GITHUB_REF
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
       - name: Publish to NPM
         run: |
           yarn install

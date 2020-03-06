@@ -2,7 +2,7 @@
 
 AB testing library supporting multi-variance testing with a deterministic algorithm not requiring any complex backend or database.
 
-The segmentation logic is maintained in the AB testing client and based itself on a centralized configuration. The cohort assignment logic is deterministic and follows a simple hash pattern based on the `crc32c` algorithm (`crc32c(userId + crc32c(experimentName)) % 100`)
+The segmentation logic is maintained in the AB testing client and based itself on a centralized configuration. The cohort assignment logic is deterministic and follows a simple hash pattern based on the `crc32c` algorithm (`crc32c(userId, crc32c(experimentName)) % 100`)
 
 # Installation
 

@@ -200,4 +200,14 @@ describe('ab-testing module', () => {
             ).getCohort('experiment_3')
         ).toEqual('control');
     });
+
+    it('match results is cached', () => {
+        const experiment = new Experiments(
+            config,
+            1,
+            hashObject({ user_id: 1, user_type: 'intelligence' }, config.salt)
+        );
+        expect(experiment.getCohort('experiment_2')).toEqual('test_force_include');
+        expect(experiment.getCohort('experiment_2')).toEqual('test_force_include');
+    });
 });

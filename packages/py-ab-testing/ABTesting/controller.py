@@ -1,6 +1,9 @@
+import logging
 from typing import Union, Dict
 
 from crc32c import crc32
+
+logger = logging.getLogger(__name__)
 
 
 def get_modulo_value(experiment, user_id):
@@ -30,15 +33,24 @@ def match_user_cohort(
 
 class ABTestingController(object):
     def __init__(self, config, user_id, user_profile):
-        self.matched_cohorts = {
-            experiment_config['name']: match_user_cohort(
-                experiment_config,
-                user_id,
-                user_profile
-            )
+        self.experiment_configs = {
+            experiment_config['name']: experiment_config
             for experiment_config in config['experiments']
         }
+        self.user_id = user_id
+        self.user_profile = user_profile
+        self.matched_cohorts = {}
 
     def get_cohort(self, experiment_name):
         # type: (str) -> str
-        return self.matched_cohorts.get(experiment_name, 'control')
+        if experiment_name not in self.matched_cohorts:
+            if experiment_name in self.experiment_configs:
+                self.matched_cohorts[experiment_name] = match_user_cohort(
+                    self.experiment_configs[experiment_name],
+                    self.user_id,
+                    self.user_profile
+                )
+            else:
+                logger.info('unrecognized ab testing experiment name: {}'.format(experiment_name))
+                self.matched_cohorts[experiment_name] = 'control'
+        return self.matched_cohorts[experiment_name]

@@ -1,6 +1,9 @@
+from unittest.mock import patch
+
 import pytest
 
 from ABTesting import ABTestingController
+from ABTesting.controller import match_user_cohort
 from ABTesting.utils import hash_dict
 
 
@@ -163,3 +166,17 @@ def test_match_cohort(config, salt, snapshot):
         1,
         hash_dict({'user_id': 1, 'email_domain': 'example.com'}, salt)
     ).get_cohort('experiment_3') == 'control'
+
+
+def test_match_results_are_cached(config, salt):
+    with patch('ABTesting.controller.match_user_cohort', wraps=match_user_cohort) as mocked_match_user_cohort:
+        experiment = ABTestingController(
+            config,
+            1,
+            hash_dict({'user_id': 1, 'user_type': 'intelligence'}, salt)
+        )
+        assert mocked_match_user_cohort.call_count == 0
+        assert experiment.get_cohort('experiment_2') == 'test_force_include'
+        assert mocked_match_user_cohort.call_count == 1
+        assert experiment.get_cohort('experiment_2') == 'test_force_include'
+        assert mocked_match_user_cohort.call_count == 1

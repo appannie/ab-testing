@@ -25,42 +25,63 @@ function getModuloValue(experiment: string, userId: number): number {
     return crc32.calculate(String(userId), crc32.calculate(experiment)) % 100;
 }
 
+function matchUserCohort(
+    experimentConfig: Experiment,
+    userId: number,
+    userProfile: { [s: string]: string }
+): string {
+    const userSegmentNum = getModuloValue(experimentConfig.name, userId);
+    let allocatedCohort = 'control';
+    for (const cohort of experimentConfig.cohorts) {
+        if (cohort.force_include) {
+            for (const key in cohort.force_include) {
+                if (cohort.force_include[key].includes(userProfile[key])) {
+                    return cohort.name;
+                }
+            }
+        }
+        if (allocatedCohort === 'control') {
+            for (const allocation of cohort.allocation || []) {
+                if (allocation[0] <= userSegmentNum && userSegmentNum < allocation[1]) {
+                    allocatedCohort = cohort.name;
+                }
+            }
+        }
+    }
+    return allocatedCohort;
+}
+
 export class Experiments {
-    config: ABTestingConfig;
+    config: { [experimentName: string]: Experiment };
     userId: number;
     userProfile: { [s: string]: string };
+    matchedCohorts: { [experimentName: string]: string };
 
     constructor(config: ABTestingConfig, userId: number, userProfile: { [s: string]: string }) {
-        this.config = config;
+        this.config = {};
         this.userId = userId;
         this.userProfile = userProfile;
+        this.matchedCohorts = {};
+        for (const experimentConfig of config.experiments) {
+            this.config[experimentConfig.name] = experimentConfig;
+        }
     }
 
     getCohort = (experimentName: string): string => {
-        const experimentConfig = this.config.experiments.find(e => e.name === experimentName);
-        if (!experimentConfig) {
-            console.error(`unrecognized ab testing experiment name: ${experimentName}`);
-            return 'control';
-        }
-        const userSegmentNum = getModuloValue(experimentName, this.userId);
-        let allocatedCohort = 'control';
-        for (const cohort of experimentConfig.cohorts) {
-            if (cohort.force_include) {
-                for (const key in cohort.force_include) {
-                    if (cohort.force_include[key].includes(this.userProfile[key])) {
-                        return cohort.name;
-                    }
-                }
-            }
-            if (allocatedCohort === 'control') {
-                for (const allocation of cohort.allocation || []) {
-                    if (allocation[0] <= userSegmentNum && userSegmentNum < allocation[1]) {
-                        allocatedCohort = cohort.name;
-                    }
-                }
+        if (!(experimentName in this.matchedCohorts)) {
+            const experimentConfig: Experiment = this.config[experimentName];
+            if (experimentConfig == null) {
+                console.error(`unrecognized ab testing experiment name: ${experimentName}`);
+                this.matchedCohorts[experimentName] = 'control';
+            } else {
+                this.matchedCohorts[experimentName] = matchUserCohort(
+                    experimentConfig,
+                    this.userId,
+                    this.userProfile
+                );
             }
         }
-        return allocatedCohort;
+        return this.matchedCohorts[experimentName];
     };
 }
 

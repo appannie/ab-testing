@@ -1,4 +1,9 @@
-from unittest.mock import patch
+import sys
+
+if sys.version_info[0:2] < (3, 4):
+    from mock import patch
+else:
+    from unittest.mock import patch
 
 import pytest
 

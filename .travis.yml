@@ -17,7 +17,7 @@ install:
 script:
   - yarn lint
   - yarn test
-  - yarn coveralls <./coverage/lcov.info
+  - npx coveralls <./coverage/lcov.info
 
 jobs:
   # include:

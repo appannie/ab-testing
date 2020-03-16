@@ -1,15 +1,46 @@
 # AB Testing
 
-AB testing library supporting multi-variance testing with a deterministic algorithm not requiring any complex backend or database.
+![CI](https://github.com/appannie/ab-testing/workflows/CI/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/appannie/ab-testing/badge.svg)](https://coveralls.io/github/appannie/ab-testing)
+![GitHub Release Date](https://img.shields.io/github/release-date/appannie/ab-testing)
+
+AB testing library supporting multi-variance testing with a deterministic algorithm not requiring any complex backend or database. Supporting both Javascript and Python.
 
 The segmentation logic is maintained in the AB testing client and based itself on a centralized configuration. The cohort assignment logic is deterministic and follows a simple hash pattern based on the `crc32c` algorithm (`crc32c(userId, crc32c(experimentName)) % 100`)
 
+# Packages
+
+| Package                            | Status                                                                                                                                                                                                                                                                | Description                                                                                     | API Doc                                                  |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| `@appannie/ab-testing`             | ![npm (scoped)](https://img.shields.io/npm/v/@appannie/ab-testing) <br> ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@appannie/ab-testing) <br> ![npm](https://img.shields.io/npm/dw/@appannie/ab-testing)                                     | Core package implementing ab-testing SDK APIs.                                                  | [README.md](./packages/ab-testing/README.md)             |
+| `@appannie/react-ab-testing`       | ![npm (scoped)](https://img.shields.io/npm/v/@appannie/react-ab-testing) <br> ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@appannie/react-ab-testing) <br> ![npm](https://img.shields.io/npm/dw/@appannie/react-ab-testing)                   | React binding for the `@appannie/ab-testing` package.                                           | [README.md](./packages/react-ab-testing/README.md)       |
+| `@appannie/ab-testing-hash-object` | ![npm (scoped)](https://img.shields.io/npm/v/@appannie/ab-testing-hash-object) <br> ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@appannie/ab-testing-hash-object) <br> ![npm](https://img.shields.io/npm/dw/@appannie/ab-testing-hash-object) | An helper library that simplify helps protecting private information like PIIs.                 | [README.md](./packages/ab-testing-hash-object/README.md) |
+| `py-ab-testing`                    | ![PyPI](https://img.shields.io/pypi/v/py-ab-testing) <br> ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/py-ab-testing) <br> ![PyPI - Downloads](https://img.shields.io/pypi/dw/py-ab-testing)                                                       | Python implementation of APIs in `@appannie/ab-testing` and `@appannie/ab-testing-hash-object`. | [README.md](./packages/py-ab-testing/README.md)          |
+
 # Installation
+
+## React App
 
 ```sh
 npm install @appannie/react-ab-testing
 # or
 yarn add @appannie/react-ab-testing
+```
+
+## Vanilla Javascript
+
+```sh
+npm install @appannie/ab-testing
+# or
+yarn add @appannie/ab-testing
+```
+
+## Python
+
+```sh
+pip install py-ab-testing
+# or
+pipenv install py-ab-testing
 ```
 
 Note that a [raw JS version is also available (`@appannie/ab-testing`)](./packages/ab-testing/README.md). Feel free to write your own adapters for other framework.

@@ -6,19 +6,32 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@appannie/ab-testing-hash-object": "file:../ab-testing-hash-object",
+    "@testing-library/react": "^10.0.1",
+    "@testing-library/react-hooks": "^3.2.1",
+    "@types/create-hash": "^1.2.2",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.1",
+    "@types/react": "^16.9.23",
+    "@types/react-dom": "^16.9.5",
+    "@types/testing-library__react": "^9.1.3",
+    "@types/testing-library__react-hooks": "^3.2.0",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-formatter-friendly": "^7.0.0",
+    "eslint-plugin-jest": "^23.8.2",
     "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.0",
     "husky": "^4.2.3",
     "jest": "^25.1.0",
     "lerna": "^3.20.2",
     "lint-staged": "^10.0.8",
     "prettier": "^1.19.1",
+    "react": "^16.13.0",
+    "react-test-renderer": "^16.13.0",
     "ts-jest": "^25.2.1",
     "ts-polyfill": "^3.8.2",
     "typescript": "^3.8.3"
@@ -43,5 +56,10 @@
     "prepublishOnly": "lerna run build"
   },
   "repository": "https://github.com/appannie/ab-testing.git",
-  "dependencies": {}
+  "dependencies": {
+    "@appannie/ab-testing": "file:packages/ab-testing",
+    "@appannie/ab-testing-hash-object": "file:packages/ab-testing-hash-object",
+    "@appannie/react-ab-testing": "file:packages/react-ab-testing",
+    "py-ab-testing": "file:packages/py-ab-testing"
+  }
 }

@@ -2,20 +2,17 @@
 # yarn lockfile v1
 
 
-"@appannie/ab-testing-hash-object@file:packages/ab-testing-hash-object":
-  version "1.1.0"
-  dependencies:
-    create-hash "^1.2.0"
+"@appannie/ab-testing-hash-object@link:packages/ab-testing-hash-object":
+  version "0.0.0"
+  uid ""
 
-"@appannie/ab-testing@file:packages/ab-testing":
-  version "1.1.0"
-  dependencies:
-    fast-crc32c "^2.0.0"
+"@appannie/ab-testing@link:packages/ab-testing":
+  version "0.0.0"
+  uid ""
 
-"@appannie/react-ab-testing@file:packages/react-ab-testing":
-  version "1.1.0"
-  dependencies:
-    "@appannie/ab-testing" "file:../../Library/Caches/Yarn/v6/npm-@appannie-react-ab-testing-1.1.0-68070a9a-80c8-4a5e-8b6c-13f6ef612f98-1584436016607/node_modules/@appannie/ab-testing"
+"@appannie/react-ab-testing@link:packages/react-ab-testing":
+  version "0.0.0"
+  uid ""
 
 "@babel/code-frame@7.0.0":
   version "7.0.0"
@@ -6259,8 +6256,9 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-"py-ab-testing@file:packages/py-ab-testing":
-  version "1.1.0"
+"py-ab-testing@link:packages/py-ab-testing":
+  version "0.0.0"
+  uid ""
 
 q@^1.5.1:
   version "1.5.1"

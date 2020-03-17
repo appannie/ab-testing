@@ -6,7 +6,6 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@appannie/ab-testing-hash-object": "file:packages/ab-testing-hash-object",
     "@testing-library/react": "^10.0.1",
     "@testing-library/react-hooks": "^3.2.1",
     "@types/create-hash": "^1.2.2",
@@ -59,9 +58,9 @@
   },
   "repository": "https://github.com/appannie/ab-testing.git",
   "dependencies": {
-    "@appannie/ab-testing": "file:packages/ab-testing",
-    "@appannie/ab-testing-hash-object": "file:packages/ab-testing-hash-object",
-    "@appannie/react-ab-testing": "file:packages/react-ab-testing",
-    "py-ab-testing": "file:packages/py-ab-testing"
+    "@appannie/ab-testing": "link:packages/ab-testing",
+    "@appannie/ab-testing-hash-object": "link:packages/ab-testing-hash-object",
+    "@appannie/react-ab-testing": "link:packages/react-ab-testing",
+    "py-ab-testing": "link:packages/py-ab-testing"
   }
 }

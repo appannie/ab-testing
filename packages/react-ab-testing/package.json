@@ -17,7 +17,7 @@
   },
   "keywords": [],
   "dependencies": {
-    "@appannie/ab-testing": "file:../ab-testing"
+    "@appannie/ab-testing": "link:../ab-testing"
   },
   "peerDependencies": {
     "react": "^16.0.0"

@@ -1,4 +1,4 @@
-# Hash object
+# AB Testing Hash Object
 
 Utility to hash common objects used within the ab-testing framework (user profile and the configuration `force_include` section.)
 

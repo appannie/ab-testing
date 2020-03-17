@@ -19,7 +19,7 @@ The segmentation logic is maintained in the AB testing client and based itself o
 
 # Installation
 
-## React App
+## React
 
 ```sh
 npm install @appannie/react-ab-testing
@@ -42,8 +42,6 @@ pip install py-ab-testing
 # or
 pipenv install py-ab-testing
 ```
-
-Note that a [raw JS version is also available (`@appannie/ab-testing`)](./packages/ab-testing/README.md). Feel free to write your own adapters for other framework.
 
 # Setup with React
 

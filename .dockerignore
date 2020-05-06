@@ -1,0 +1,8 @@
+**/node_modules
+**/.next
+*.pyc
+.scannerwork
+docker/tests
+logs
+**/logs
+

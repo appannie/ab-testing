@@ -1,8 +1,12 @@
 {
-  "version": "1.1.1",
+  "version": "1.1.2",
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "ignoreChanges": ["**/__fixtures__/**", "**/__tests__/**", "**/*.md"],
+  "ignoreChanges": [
+    "**/__fixtures__/**",
+    "**/__tests__/**",
+    "**/*.md"
+  ],
   "command": {
     "version": {
       "allowBranch": "master"

@@ -8,7 +8,7 @@ export function hashWithSalt(value: unknown, salt: string): string {
 }
 
 export function hashArray(values: unknown[], salt: string): string[] {
-    return values.map(val => hashWithSalt(val, salt));
+    return values.map((val) => hashWithSalt(val, salt));
 }
 
 export function hashObject(

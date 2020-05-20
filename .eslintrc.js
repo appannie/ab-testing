@@ -17,7 +17,7 @@ module.exports = {
     rules: {
         'prettier/prettier': 'error',
         'sort-keys': 'off',
-        '@typescript-eslint/indent': 'error',
+        '@typescript-eslint/indent': 'off',
         '@typescript-eslint/member-ordering': [
             'error',
             {

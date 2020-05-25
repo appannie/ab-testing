@@ -224,7 +224,7 @@ pipenv install py-ab-testing
 
 ### Usage
 
-Note: The `config` variable holds an `dict` with [configuration file format that documented here](../../README.md).
+Note: The `config` variable holds an `dict` with [configuration file format that documented here](#configuration-file-reference).
 
 ```python
 from ABTesting import ABTestingController
@@ -333,7 +333,7 @@ You shouldn't list user [private information (PII)](https://csrc.nist.gov/glossa
 
 If you need to segment users using emails or information you wish/need to keep private, we suggest you to securely encrypt them.
 
-We're providing an extra module [`@appannie/ab-testing-hash-object`](./packages/ab-testing-hash-object/README.md) aiming to simplify this flow. This module will encode the keys and the values of your user profile. You then need to call it with the same `salt` while preprocessing your configuration and once when defining the user profile:
+We're providing an extra module `@appannie/ab-testing-hash-object` aiming to simplify this flow. This module will encode the keys and the values of your user profile. You then need to call it with the same `salt` while preprocessing your configuration and once when defining the user profile:
 
 ```js
 import { hashObject } from '@appannie/ab-testing-hash-object';

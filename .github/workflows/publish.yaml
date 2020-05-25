@@ -29,6 +29,9 @@ jobs:
           python-version: 3.8
       - run: |
           git config --global user.name "github-actions[bot]"
+      - name: Copy README.me
+        run: |
+          for i in packages/*; do echo cp README.md $i; done
       - name: Publish to NPM
         run: |
           yarn install

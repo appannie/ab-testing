@@ -29,9 +29,9 @@
 
 # AB Testing
 
-![CI](https://github.com/appannie/ab-testing/workflows/CI/badge.svg)
+[![CI](https://github.com/appannie/ab-testing/workflows/CI/badge.svg)](https://github.com/appannie/ab-testing/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/appannie/ab-testing/badge.svg)](https://coveralls.io/github/appannie/ab-testing)
-![GitHub Release Date](https://img.shields.io/github/release-date/appannie/ab-testing)
+[![GitHub Release Date](https://img.shields.io/github/release-date/appannie/ab-testing)](https://github.com/appannie/ab-testing/releases)
 
 The AB Testing library implements multi-variance testing with a deterministic algorithm. It doesn't require any complex backend or database. Supporting both Javascript and Python.
 
@@ -58,9 +58,9 @@ The config file can be optionaly [hashed](#Configuration-File-Hashing-and-Protec
 
 ## For React: `@appannie/react-ab-testing`
 
-![npm (scoped)](https://img.shields.io/npm/v/@appannie/react-ab-testing)
-![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@appannie/react-ab-testing)
-![npm](https://img.shields.io/npm/dw/@appannie/react-ab-testing)
+[![npm (scoped)](https://img.shields.io/npm/v/@appannie/react-ab-testing)](https://www.npmjs.com/package/@appannie/react-ab-testing)
+[![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@appannie/react-ab-testing)](https://www.npmjs.com/package/@appannie/react-ab-testing)
+[![npm](https://img.shields.io/npm/dw/@appannie/react-ab-testing)](https://www.npmjs.com/package/@appannie/react-ab-testing)
 
 React binding for the vanilla Javascript package, featuring similar functionality.
 
@@ -122,9 +122,9 @@ const Component = () => {
 
 ## For Vanilla Javascript: `@appannie/ab-testing`
 
-![npm (scoped)](https://img.shields.io/npm/v/@appannie/ab-testing)
-![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@appannie/ab-testing)
-![npm](https://img.shields.io/npm/dw/@appannie/ab-testing)
+[![npm (scoped)](https://img.shields.io/npm/v/@appannie/ab-testing)](https://www.npmjs.com/package/@appannie/ab-testing)
+[![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@appannie/ab-testing)](https://www.npmjs.com/package/@appannie/ab-testing)
+[![npm](https://img.shields.io/npm/dw/@appannie/ab-testing)](https://www.npmjs.com/package/@appannie/ab-testing)
 
 Core Javascript package that implementing ab-testing SDK APIs.
 
@@ -166,9 +166,9 @@ switch (cohort) {
 
 ## Javascript Hashing Utils `@appannie/ab-testing-hash-object`
 
-![npm (scoped)](https://img.shields.io/npm/v/@appannie/ab-testing-hash-object)
-![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@appannie/ab-testing-hash-object)
-![npm](https://img.shields.io/npm/dw/@appannie/ab-testing-hash-object)
+[![npm (scoped)](https://img.shields.io/npm/v/@appannie/ab-testing-hash-object)](https://www.npmjs.com/package/@appannie/ab-testing-hash-object)
+[![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@appannie/ab-testing-hash-object)](https://www.npmjs.com/package/@appannie/ab-testing-hash-object)
+[![npm](https://img.shields.io/npm/dw/@appannie/ab-testing-hash-object)](https://www.npmjs.com/package/@appannie/ab-testing-hash-object)
 
 An helper library that implements hashing for the configurations (user profile and the configuration `force_include` section) in case you want to host the config file publicly but still keep the content private, or just don't want to leave PIIs been transmitted in plain text.
 
@@ -208,9 +208,9 @@ You'll want to make sure the salt is the same on your server and your client for
 
 ## For Python: `py-ab-testing`
 
-![PyPI](https://img.shields.io/pypi/v/py-ab-testing)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/py-ab-testing)
-![PyPI - Downloads](https://img.shields.io/pypi/dw/py-ab-testing)
+[![PyPI](https://img.shields.io/pypi/v/py-ab-testing)](https://pypi.org/project/py-ab-testing/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/py-ab-testing)](https://pypi.org/project/py-ab-testing/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dw/py-ab-testing)](https://pypi.org/project/py-ab-testing/)
 
 Python implementation for the same APIs in `@appannie/ab-testing` and `@appannie/ab-testing-hash-object`
 
@@ -224,7 +224,7 @@ pipenv install py-ab-testing
 
 ### Usage
 
-Note: The `config` variable holds an `dict` with [configuration file format that documented here](../../README.md).
+Note: The `config` variable holds an `dict` with [configuration file format that documented here](#configuration-file-reference).
 
 ```python
 from ABTesting import ABTestingController
@@ -333,7 +333,7 @@ You shouldn't list user [private information (PII)](https://csrc.nist.gov/glossa
 
 If you need to segment users using emails or information you wish/need to keep private, we suggest you to securely encrypt them.
 
-We're providing an extra module [`@appannie/ab-testing-hash-object`](./packages/ab-testing-hash-object/README.md) aiming to simplify this flow. This module will encode the keys and the values of your user profile. You then need to call it with the same `salt` while preprocessing your configuration and once when defining the user profile:
+We're providing an extra module `@appannie/ab-testing-hash-object` aiming to simplify this flow. This module will encode the keys and the values of your user profile. You then need to call it with the same `salt` while preprocessing your configuration and once when defining the user profile:
 
 ```js
 import { hashObject } from '@appannie/ab-testing-hash-object';

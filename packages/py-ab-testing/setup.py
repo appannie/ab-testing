@@ -3,7 +3,7 @@ from os import path
 
 import setuptools
 
-with open(path.join(path.dirname(__file__), "README.md"), "r") as fh:
+with open(path.join(path.dirname(__file__), "..", "..", "README.md"), "r") as fh:
     long_description = fh.read()
 
 with open(path.join(path.dirname(__file__), "package.json"), "r") as f:

@@ -71,7 +71,8 @@ export class Experiments {
         if (!(experimentName in this.matchedCohorts)) {
             const experimentConfig: Experiment = this.config[experimentName];
             if (experimentConfig == null) {
-                console.error(`unrecognized ab testing experiment name: ${experimentName}`);
+                process.env.NODE_ENV !== 'test' &&
+                    console.error(`unrecognized ab testing experiment name: ${experimentName}`);
                 this.matchedCohorts[experimentName] = 'control';
             } else {
                 this.matchedCohorts[experimentName] = matchUserCohort(

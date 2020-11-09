@@ -210,4 +210,34 @@ describe('ab-testing module', () => {
         expect(experiment.getCohort('experiment_2')).toEqual('test_force_include');
         expect(experiment.getCohort('experiment_2')).toEqual('test_force_include');
     });
+
+    it('does not show an error message if NODE_ENV is  test', () => {
+        const spy = jest.spyOn(console, 'error').mockImplementation();
+
+        expect(
+            new Experiments(
+                config,
+                1,
+                hashObject({ user_id: 1, email_domain: 'example.com' }, config.salt)
+            ).getCohort('experiment_3')
+        ).toEqual('control');
+        expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('shows an error message if NODE_ENV is not test', () => {
+        const initialEnv = global.process.env.NODE_ENV;
+        global.process.env.NODE_ENV = 'development';
+        const spy = jest.spyOn(console, 'error').mockImplementation();
+
+        expect(
+            new Experiments(
+                config,
+                1,
+                hashObject({ user_id: 1, email_domain: 'example.com' }, config.salt)
+            ).getCohort('experiment_3')
+        ).toEqual('control');
+        expect(spy).toHaveBeenCalled();
+
+        global.process.env.NODE_ENV = initialEnv;
+    });
 });

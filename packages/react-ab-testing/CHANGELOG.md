@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### 1.1.4 (2021-04-30)
+
+**Note:** Version bump only for package @appannie/react-ab-testing
+
+
+
+
+
 ## <small>1.1.3 (2020-05-26)</small>
 
 * Merge pull request #19 from appannie/bugfixes ([b05f08c](https://github.com/appannie/ab-testing/commit/b05f08c)), closes [#19](https://github.com/appannie/ab-testing/issues/19)

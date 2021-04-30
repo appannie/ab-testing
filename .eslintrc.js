@@ -9,7 +9,6 @@ module.exports = {
     extends: [
         'plugin:@typescript-eslint/recommended',
         'prettier',
-        'prettier/@typescript-eslint',
         'eslint:recommended',
         'plugin:react/recommended',
     ],
@@ -42,6 +41,9 @@ module.exports = {
         ],
         '@typescript-eslint/no-parameter-properties': 'error',
         '@typescript-eslint/no-unused-vars': 'error',
+        // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-redeclare.md
+        "no-redeclare": "off",
+        "@typescript-eslint/no-redeclare": ["error"],
         'react/display-name': 'off',
         'react/prop-types': 'off',
         'react-hooks/rules-of-hooks': 'error',

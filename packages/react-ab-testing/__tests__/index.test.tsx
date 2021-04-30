@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import React from 'react';
 import { renderHook } from '@testing-library/react-hooks';
 import { ABTestingConfig } from '@appannie/ab-testing';

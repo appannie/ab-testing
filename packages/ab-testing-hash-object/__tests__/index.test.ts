@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { hashObject } from '../src';
 
 describe('@appannie/ab-testing-hash-object', () => {

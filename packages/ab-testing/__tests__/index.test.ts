@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import Experiments, { ABTestingConfig } from '../src';
 import { hashObject } from '@appannie/ab-testing-hash-object';
 

@@ -62,6 +62,11 @@ describe('ab-testing module', () => {
 
     it('match cohorts', () => {
         expect(
+            new Experiments(config, 2, hashObject({ user_id: 2 }, config.salt)).hasExperiment(
+                'experiment_1'
+            )
+        ).toBe(true);
+        expect(
             new Experiments(config, 2, hashObject({ user_id: 2 }, config.salt)).getCohort(
                 'experiment_1'
             )
@@ -228,13 +233,14 @@ describe('ab-testing module', () => {
         global.process.env.NODE_ENV = 'development';
         const spy = jest.spyOn(console, 'error').mockImplementation();
 
-        expect(
-            new Experiments(
-                config,
-                1,
-                hashObject({ user_id: 1, email_domain: 'example.com' }, config.salt)
-            ).getCohort('experiment_3')
-        ).toEqual('control');
+        const experiments = new Experiments(
+            config,
+            1,
+            hashObject({ user_id: 1, email_domain: 'example.com' }, config.salt)
+        );
+
+        expect(experiments.getCohort('experiment_3')).toEqual('control');
+        expect(experiments.hasExperiment('experiment_3')).toBe(false);
         expect(spy).toHaveBeenCalled();
 
         global.process.env.NODE_ENV = initialEnv;

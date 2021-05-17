@@ -84,6 +84,8 @@ export class Experiments {
         }
         return this.matchedCohorts[experimentName];
     };
+
+    hasExperiment = (experimentName: string): boolean => !!this.config[experimentName];
 }
 
 export default Experiments;

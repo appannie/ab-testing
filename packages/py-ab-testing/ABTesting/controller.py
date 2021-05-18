@@ -54,3 +54,6 @@ class ABTestingController(object):
                 logger.info('unrecognized ab testing experiment name: {}'.format(experiment_name))
                 self.matched_cohorts[experiment_name] = 'control'
         return self.matched_cohorts[experiment_name]
+
+    def has_experiment(self, experiment_name):
+        return experiment_name in self.experiment_configs

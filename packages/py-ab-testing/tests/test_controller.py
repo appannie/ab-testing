@@ -78,6 +78,9 @@ def config(salt):
 
 
 def test_match_cohort(config, salt, snapshot):
+    assert ABTestingController(config, 2, hash_dict({'user_id': 2}, salt)).has_experiment(
+        'experiment_1'
+    ) == True
     assert ABTestingController(config, 2, hash_dict({'user_id': 2}, salt)).get_cohort(
         'experiment_1'
     ) == 'control'
@@ -171,6 +174,11 @@ def test_match_cohort(config, salt, snapshot):
         1,
         hash_dict({'user_id': 1, 'email_domain': 'example.com'}, salt)
     ).get_cohort('experiment_3') == 'control'
+    assert ABTestingController(
+        config,
+        1,
+        hash_dict({'user_id': 1, 'email_domain': 'example.com'}, salt)
+    ).has_experiment('experiment_3') == False
 
 
 def test_match_results_are_cached(config, salt):

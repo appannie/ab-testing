@@ -1,7 +1,8 @@
 //@flow
 import * as React from 'react';
 import { type ABTestingConfig } from '@appannie/ab-testing';
-export type { ABTestingConfig, ABTestingContextType } from '@appannie/ab-testing';
+export type { ABTestingConfig } from '@appannie/ab-testing';
+
 declare export var ABTestingController: React.ComponentType<{
     config: ABTestingConfig,
     userId: number,
@@ -11,4 +12,7 @@ declare export var ABTestingController: React.ComponentType<{
     children: React.Node,
 }>;
 declare export function useCohortOf(experimentName: string): string;
-declare export function useABTestingController(): ABTestingContextType;
+declare export function useABTestingController(): {
+    hasExperiment: (experimentName: string) => boolean;
+    getCohort: (experimentName: string) => string;
+};

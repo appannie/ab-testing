@@ -1,14 +1,14 @@
 import logging
 from typing import Union, Dict
 
-from crc32c import crc32
+from crc32c import crc32c
 
 logger = logging.getLogger(__name__)
 
 
 def get_modulo_value(experiment, user_id):
     # type: (str, Union[str, int]) -> int
-    return crc32(str(user_id).encode(), crc32(experiment.encode())) % 100
+    return crc32c(str(user_id).encode(), crc32c(experiment.encode())) % 100
 
 
 def match_user_cohort(

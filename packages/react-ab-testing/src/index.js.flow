@@ -11,3 +11,4 @@ declare export var ABTestingController: React.ComponentType<{
     children: React.Node,
 }>;
 declare export function useCohortOf(experimentName: string): string;
+declare export function useHasExperiment(experimentName: string): boolean;

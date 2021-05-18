@@ -3,7 +3,11 @@ import Experiments, { ABTestingConfig } from '@appannie/ab-testing';
 
 export { ABTestingConfig };
 
-const ABTestingContext = React.createContext<{ getCohort: (experimentName: string) => string }>({
+const ABTestingContext = React.createContext<{
+    hasExperiment: (experimentName: string) => boolean;
+    getCohort: (experimentName: string) => string;
+}>({
+    hasExperiment: () => false,
     getCohort: () => 'control',
 });
 
@@ -24,4 +28,9 @@ export const ABTestingController: React.FunctionComponent<{
 export function useCohortOf(experimentName: string): string {
     const experiments = React.useContext(ABTestingContext);
     return experiments.getCohort(experimentName);
+}
+
+export function useHasExperiment(experimentName: string): boolean {
+    const experiments = React.useContext(ABTestingContext);
+    return experiments.hasExperiment(experimentName);
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { renderHook } from '@testing-library/react-hooks';
 import { ABTestingConfig } from '@appannie/ab-testing';
 import hashObject from '@appannie/ab-testing-hash-object';
-import { ABTestingController, useCohortOf, useHasExperiment } from '../src';
+import { ABTestingController, useCohortOf, useABTestingController } from '../src';
 
 describe('AB Testing', () => {
     const salt = '4a9120a277117afeade34305c258a2f1';
@@ -98,10 +98,12 @@ describe('AB Testing', () => {
     });
 
     it('check experiment', () => {
-        expect(renderHook(() => useHasExperiment('experiment_1')).result.current).toBe(false);
+        expect(
+            renderHook(() => useABTestingController().hasExperiment('experiment_1')).result.current
+        ).toBe(false);
 
         expect(
-            renderHook(() => useHasExperiment('experiment_1'), {
+            renderHook(() => useABTestingController().hasExperiment('experiment_1'), {
                 wrapper: ({ children }) => (
                     <ABTestingController
                         config={config}
@@ -115,7 +117,7 @@ describe('AB Testing', () => {
         ).toBe(true);
 
         expect(
-            renderHook(() => useHasExperiment('experiment_3'), {
+            renderHook(() => useABTestingController().hasExperiment('experiment_3'), {
                 wrapper: ({ children }) => (
                     <ABTestingController
                         config={config}

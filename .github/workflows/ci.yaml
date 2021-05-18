@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ '16', '14', '12' ]
+        node: [ '16' ]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -40,6 +40,7 @@ jobs:
           yarn lint
           yarn test
       - name: Coveralls
+        # if: ${{ github.ref == 'refs/heads/master' }}
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -50,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [2.7, 3.6, 3.7, 3.8, 3.9]
+        python-version: [2.7, 3.9]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -79,9 +80,6 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Test
         working-directory: ./packages/py-ab-testing
-        env:
-          COVERALLS_PARALLEL: true
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         run: |
           pip install -r requirements.txt
           pip install -e .
@@ -92,6 +90,12 @@ jobs:
             --cov-report=html:cov.html \
             --cov-report=term-missing:skip-covered \
             tests
+      - name: Coveralls
+        # if: ${{ github.ref == 'refs/heads/master' }}
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+          COVERALLS_PARALLEL: true
+        run: |
           coveralls
 
   finish_coveralls:
@@ -101,6 +105,7 @@ jobs:
       - py
     steps:
       - name: Coveralls
+        # if: ${{ github.ref == 'refs/heads/master' }}
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

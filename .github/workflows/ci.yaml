@@ -87,22 +87,15 @@ jobs:
             --cov-config=.coveragerc \
             --cov=ABTesting \
             --cov-branch \
-            --cov-report=html:cov.html \
+            --cov-report=html:coverage.html \
+            --cov-report=xml:coverage.xml \
             --cov-report=term-missing:skip-covered \
             tests
-      - name: Coveralls
-        # if: ${{ github.ref == 'refs/heads/master' }}
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-          COVERALLS_PARALLEL: true
-        run: |
-          coveralls
 
   finish_coveralls:
     runs-on: ubuntu-latest
     needs:
       - js
-      - py
     steps:
       - name: Coveralls
         # if: ${{ github.ref == 'refs/heads/master' }}

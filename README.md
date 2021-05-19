@@ -385,6 +385,6 @@ experiments:
 
 # Credits
 
-Made with ❤️ by [Zhang Tao](https://github.com/BananaWanted) and [Simon Boudrias](https://github.com/SBoudrias) from the App Annie Beijing office.
+Made with ❤️ by [Zhang Tao](https://github.com/ZigZagT) and [Simon Boudrias](https://github.com/SBoudrias) from the App Annie Beijing office.
 
 Available for public use under the MIT license.

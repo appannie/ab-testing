@@ -57,7 +57,11 @@ export class Experiments {
     userProfile: { [s: string]: string };
     matchedCohorts: { [experimentName: string]: string };
 
-    constructor(config: ABTestingConfig, userId: number | string, userProfile: { [s: string]: string }) {
+    constructor(
+        config: ABTestingConfig,
+        userId: number | string,
+        userProfile: { [s: string]: string }
+    ) {
         this.config = {};
         this.userId = userId;
         this.userProfile = userProfile;

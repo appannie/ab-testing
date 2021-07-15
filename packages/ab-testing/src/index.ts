@@ -21,13 +21,13 @@ export type ABTestingConfig = {
     experiments: Experiment[];
 };
 
-function getModuloValue(experiment: string, userId: number): number {
+function getModuloValue(experiment: string, userId: number | string): number {
     return crc32.calculate(String(userId), crc32.calculate(experiment)) % 100;
 }
 
 function matchUserCohort(
     experimentConfig: Experiment,
-    userId: number,
+    userId: number | string,
     userProfile: { [s: string]: string }
 ): string {
     const userSegmentNum = getModuloValue(experimentConfig.name, userId);
@@ -53,11 +53,15 @@ function matchUserCohort(
 
 export class Experiments {
     config: { [experimentName: string]: Experiment };
-    userId: number;
+    userId: number | string;
     userProfile: { [s: string]: string };
     matchedCohorts: { [experimentName: string]: string };
 
-    constructor(config: ABTestingConfig, userId: number, userProfile: { [s: string]: string }) {
+    constructor(
+        config: ABTestingConfig,
+        userId: number | string,
+        userProfile: { [s: string]: string }
+    ) {
         this.config = {};
         this.userId = userId;
         this.userProfile = userProfile;

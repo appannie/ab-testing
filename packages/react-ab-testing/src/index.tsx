@@ -15,7 +15,7 @@ const ABTestingContext = React.createContext<ABTestingContextType>({
 
 export const ABTestingController: React.FunctionComponent<{
     config: ABTestingConfig;
-    userId: number;
+    userId: number | string;
     userProfile: { [key: string]: string };
     children: ReactNode;
 }> = ({ config, userId, userProfile, children }) => {

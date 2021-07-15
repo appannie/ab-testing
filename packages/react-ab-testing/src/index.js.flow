@@ -5,7 +5,7 @@ export type { ABTestingConfig } from '@appannie/ab-testing';
 
 declare export var ABTestingController: React.ComponentType<{
     config: ABTestingConfig,
-    userId: number,
+    userId: number | string,
     userProfile: {
         [key: string]: string,
     },

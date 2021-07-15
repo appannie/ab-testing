@@ -11,8 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
-          ref: ${{ github.event.release.target_commitish }}
+          ref: master
       - name: Remove the triggering release
         run: |
           curl -XDELETE \
@@ -22,16 +21,16 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 16
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
           python-version: 3.8
-      - run: |
-          git config --global user.name "github-actions[bot]"
       - name: Copy README.me
         run: |
           for i in packages/*; do cp README.md $i; done
+      - run: |
+          git config --global user.name "github-actions[bot]"
       - name: Publish to NPM
         run: |
           yarn install

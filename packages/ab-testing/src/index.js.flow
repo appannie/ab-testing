@@ -18,13 +18,13 @@ export type ABTestingConfig = {
 };
 declare export class Experiments {
     config: ABTestingConfig;
-    userId: number;
+    userId: number | string;
     userProfile: {
         [s: string]: string,
     };
     constructor(
         config: ABTestingConfig,
-        userId: number,
+        userId: number | string,
         userProfile: {
             [s: string]: string,
         }

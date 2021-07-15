@@ -56,6 +56,25 @@ describe('ab-testing module', () => {
                     },
                 ],
             },
+            {
+                name: 'experiment_3',
+                cohorts: [
+                    { name: 'control', force_include: {} },
+                    {
+                        name: 'test_allocation',
+                        allocation: [[0, 50]],
+                    },
+                    {
+                        name: 'test_force_include',
+                        force_include: hashObject(
+                            {
+                                user_id: ['123456789'],
+                            },
+                            salt
+                        ),
+                    },
+                ],
+            },
         ],
         salt,
     };
@@ -184,6 +203,20 @@ describe('ab-testing module', () => {
             ).getCohort('experiment_2')
         ).toEqual('test_force_include');
         expect(
+            new Experiments(
+                config,
+                '12345',
+                hashObject({ user_id: '12345' }, config.salt)
+            ).getCohort('experiment_3')
+        ).toEqual('control');
+        expect(
+            new Experiments(
+                config,
+                '123456789',
+                hashObject({ user_id: '123456789' }, config.salt)
+            ).getCohort('experiment_3')
+        ).toEqual('test_force_include');
+        expect(
             Array(20)
                 .fill(0)
                 .map((_, i) => [
@@ -201,7 +234,7 @@ describe('ab-testing module', () => {
                 config,
                 1,
                 hashObject({ user_id: 1, email_domain: 'example.com' }, config.salt)
-            ).getCohort('experiment_3')
+            ).getCohort('experiment_any')
         ).toEqual('control');
     });
 
@@ -215,7 +248,7 @@ describe('ab-testing module', () => {
         expect(experiment.getCohort('experiment_2')).toEqual('test_force_include');
     });
 
-    it('does not show an error message if NODE_ENV is  test', () => {
+    it('does not show an error message if NODE_ENV is test', () => {
         const spy = jest.spyOn(console, 'error').mockImplementation();
 
         expect(
@@ -223,7 +256,7 @@ describe('ab-testing module', () => {
                 config,
                 1,
                 hashObject({ user_id: 1, email_domain: 'example.com' }, config.salt)
-            ).getCohort('experiment_3')
+            ).getCohort('experiment_any')
         ).toEqual('control');
         expect(spy).not.toHaveBeenCalled();
     });
@@ -238,8 +271,8 @@ describe('ab-testing module', () => {
             hashObject({ user_id: 1, email_domain: 'example.com' }, config.salt)
         );
 
-        expect(experiments.getCohort('experiment_3')).toEqual('control');
-        expect(experiments.hasExperiment('experiment_3')).toBe(false);
+        expect(experiments.getCohort('experiment_any')).toEqual('control');
+        expect(experiments.hasExperiment('experiment_any')).toBe(false);
         expect(spy).toHaveBeenCalled();
 
         global.process.env.NODE_ENV = initialEnv;

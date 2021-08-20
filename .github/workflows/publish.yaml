@@ -6,7 +6,6 @@ on:
 
 jobs:
   publish:
-    environment: publish
     if: "github.event.release.tag_name == 'major' || github.event.release.tag_name == 'minor' || github.event.release.tag_name == 'patch'"
     runs-on: ubuntu-latest
     steps:

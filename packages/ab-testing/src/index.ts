@@ -49,8 +49,9 @@ function validateAllocationFields(fields: AllocationFields, userProfile: UserPro
     return itemMatchesCriteria;
 }
 
-const isAllocationV2 = (allocation: any): allocation is AllocationV2 =>
-    allocation.range !== undefined || allocation.fields !== undefined;
+const isAllocationV2 = (allocation: any): allocation is AllocationV2 => {
+    return allocation.range !== undefined;
+};
 
 function validateUserWithinAllocationRange(userSegmentNum: number, range: AllocationV1) {
     for (const allocation of range) {
@@ -73,7 +74,7 @@ export function validateAllocation(
         if (isAllocationV2(cohort.allocation)) {
             const range = cohort.allocation.range;
             const fields = cohort.allocation.fields;
-            if (validateUserWithinAllocationRange(userSegmentNum, range) || !range) {
+            if (validateUserWithinAllocationRange(userSegmentNum, range)) {
                 if (fields) {
                     return validateAllocationFields(fields, userProfile);
                 }

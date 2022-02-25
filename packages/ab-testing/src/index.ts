@@ -54,9 +54,7 @@ const isAllocationV2 = (allocation: any): allocation is AllocationV2 =>
 
 function validateUserWithinAllocationRange(userSegmentNum: number, range: AllocationV1) {
     for (const allocation of range) {
-        console.log(userSegmentNum, allocation);
         if (allocation[0] <= userSegmentNum && userSegmentNum < allocation[1]) {
-            console.log('returning true');
             return true;
         }
     }

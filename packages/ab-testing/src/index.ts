@@ -6,21 +6,13 @@ type ForceInclude = {
     [key: string]: string[];
 };
 
-type AllocationFields = { [key: string]: string[] };
-
-type AllocationV2 = {
-    range: [number, number][];
-    fields?: AllocationFields;
-};
-
 type AllocationV1 = [number, number][];
-
-type Allocation = AllocationV1 | AllocationV2;
 
 export type Cohort = {
     name: string;
-    allocation?: Allocation;
+    allocation?: [number, number][];
     force_include?: ForceInclude;
+    allocation_criteria?: ForceInclude;
 };
 
 type Experiment = {
@@ -38,20 +30,16 @@ function getModuloValue(experiment: string, userId: number | string): number {
     return crc32.calculate(String(userId), crc32.calculate(experiment)) % 100;
 }
 
-function validateAllocationFields(fields: AllocationFields, userProfile: UserProfile): boolean {
+function validateAllocationFilters(filters: ForceInclude, userProfile: UserProfile): boolean {
     let itemMatchesCriteria = true;
-    for (const key in fields) {
-        if (!fields[key].includes(userProfile[key])) {
+    for (const key in filters) {
+        if (!filters[key].includes(userProfile[key])) {
             itemMatchesCriteria = false;
         }
     }
 
     return itemMatchesCriteria;
 }
-
-const isAllocationV2 = (allocation: any): allocation is AllocationV2 => {
-    return allocation.range !== undefined;
-};
 
 function validateUserWithinAllocationRange(userSegmentNum: number, range: AllocationV1) {
     for (const allocation of range) {
@@ -71,17 +59,11 @@ export function validateAllocation(
 ): boolean {
     const userSegmentNum = getModuloValue(configName, userId);
     if (cohort.allocation) {
-        if (isAllocationV2(cohort.allocation)) {
-            const range = cohort.allocation.range;
-            const fields = cohort.allocation.fields;
-            if (validateUserWithinAllocationRange(userSegmentNum, range)) {
-                if (fields) {
-                    return validateAllocationFields(fields, userProfile);
-                }
-                return true;
+        if (validateUserWithinAllocationRange(userSegmentNum, cohort.allocation)) {
+            if (cohort.allocation_criteria) {
+                return validateAllocationFilters(cohort.allocation_criteria, userProfile);
             }
-        } else {
-            return validateUserWithinAllocationRange(userSegmentNum, cohort.allocation);
+            return true;
         }
     }
 

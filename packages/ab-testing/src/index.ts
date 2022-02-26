@@ -30,7 +30,7 @@ function getModuloValue(experiment: string, userId: number | string): number {
     return crc32.calculate(String(userId), crc32.calculate(experiment)) % 100;
 }
 
-function validateAllocationFilters(filters: ForceInclude, userProfile: UserProfile): boolean {
+function validateAllocationCriteria(filters: ForceInclude, userProfile: UserProfile): boolean {
     let itemMatchesCriteria = true;
     for (const key in filters) {
         if (!filters[key].includes(userProfile[key])) {
@@ -61,7 +61,7 @@ export function validateAllocation(
     if (cohort.allocation) {
         if (validateUserWithinAllocationRange(userSegmentNum, cohort.allocation)) {
             if (cohort.allocation_criteria) {
-                return validateAllocationFilters(cohort.allocation_criteria, userProfile);
+                return validateAllocationCriteria(cohort.allocation_criteria, userProfile);
             }
             return true;
         }

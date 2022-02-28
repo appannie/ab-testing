@@ -3,26 +3,26 @@
 - [AB Testing](#ab-testing)
 - [Terms](#terms)
 - [Package API References](#package-api-references)
-    - [For React: `@appannie/react-ab-testing`](#for-react-appanniereact-ab-testing)
-        - [Installation](#installation)
-        - [Usage](#usage)
-    - [For Vanilla Javascript: `@appannie/ab-testing`](#for-vanilla-javascript-appannieab-testing)
-        - [Installation](#installation-1)
-        - [Usage](#usage-1)
-    - [Javascript Hashing Utils `@appannie/ab-testing-hash-object`](#javascript-hashing-utils-appannieab-testing-hash-object)
-        - [Installation](#installation-2)
-        - [Usage](#usage-2)
-    - [For Python: `py-ab-testing`](#for-python-py-ab-testing)
-        - [Installation](#installation-3)
-        - [Usage](#usage-3)
-        - [Configration Hashing](#configration-hashing)
-            - [Prepare config file BEFORE make it public](#prepare-config-file-before-make-it-public)
-            - [In runtime](#in-runtime)
+  - [For React: `@appannie/react-ab-testing`](#for-react-appanniereact-ab-testing)
+    - [Installation](#installation)
+    - [Usage](#usage)
+  - [For Vanilla Javascript: `@appannie/ab-testing`](#for-vanilla-javascript-appannieab-testing)
+    - [Installation](#installation-1)
+    - [Usage](#usage-1)
+  - [Javascript Hashing Utils `@appannie/ab-testing-hash-object`](#javascript-hashing-utils-appannieab-testing-hash-object)
+    - [Installation](#installation-2)
+    - [Usage](#usage-2)
+  - [For Python: `py-ab-testing`](#for-python-py-ab-testing)
+    - [Installation](#installation-3)
+    - [Usage](#usage-3)
+    - [Configration Hashing](#configration-hashing)
+      - [Prepare config file BEFORE make it public](#prepare-config-file-before-make-it-public)
+      - [In runtime](#in-runtime)
 - [Configuration File Reference](#configuration-file-reference)
-    - [Configuration File Hashing and Protecting private information](#configuration-file-hashing-and-protecting-private-information)
-    - [Example configuration and common use case](#example-configuration-and-common-use-case)
-        - [Excluding a user from an experiment](#excluding-a-user-from-an-experiment)
-        - [Internal whitelist](#internal-whitelist)
+  - [Configuration File Hashing and Protecting private information](#configuration-file-hashing-and-protecting-private-information)
+  - [Example configuration and common use case](#example-configuration-and-common-use-case)
+    - [Excluding a user from an experiment](#excluding-a-user-from-an-experiment)
+    - [Internal whitelist](#internal-whitelist)
 - [Credits](#credits)
 
 <!-- /TOC -->
@@ -39,7 +39,7 @@ The AB Testing library segmentating users under different "[cohorts](#terms)", s
 
 There're 2 ways of segmentation:
 
-1. Percentage based segmentation: Randomly allocate certain percent of user to a "[cohort](#terms)". The allocation algorithm guarantees to produce stable results within a single [experiment](#terms), and produce a different set of users for another [experiment](#terms) in a random way. Take a look at this example: `first 25% users`, it will always result into the same group of users in [experiment](#terms) `A`, but results in another completely different group of users for [experiment](#terms) `B`.
+1. Percentage based segmentation: Randomly allocate certain percent of user to a "[cohort](#terms)". The allocation algorithm guarantees to produce stable results within a single [experiment](#terms), and produce a different set of users for another [experiment](#terms) in a random way. You can also further filter the user set using the key `allocation_criteria`. Take a look at this example: `first 25% users`, it will always result into the same group of users in [experiment](#terms) `A`, but results in another completely different group of users for [experiment](#terms) `B`.
 2. User profile based segmentation: Manually assign a specific group of users to a cohort. This can be used to achieve features like "expose a new feature to the company emplyees for internal testing". Note the profile based segmentation works independently from the percentage based method. They doesn't interfere each other.
 
 The segmentation decisions are made base on a configuration file. The file should be `json` formated and hosted centralized place. More details about the configuration file below.
@@ -313,6 +313,12 @@ controller = ABTestingController(config, user.id, hashed_user_profile)
                     allocation: [
                         [0, 25]
                     ],
+                    // The allocation_criteria key allows us to further filter the set of users by enforcing 
+                    // a criteria that must be valid before the cohort is approved. In this case, 
+                    // the user must have an email domain of data.ai or appannie.com.
+                    allocation_criteria: {
+                        email_domain: ['appannie.com', 'data.ai']
+                    }
                 },
                 {
                     // "control" is the default cohort. All experiments always have a control cohort.
@@ -325,7 +331,7 @@ controller = ABTestingController(config, user.id, hashed_user_profile)
 }
 ```
 
-At App Annie, we're maintaining this configuration in yaml format to reduce the syntax noise. We have an automated CI task to encode/encrypt and push the final configuration to a public S3 bucket from where our SDK retrieve the configuration.
+At Data AI, we're maintaining this configuration in yaml format to reduce the syntax noise. We have an automated CI task to encode/encrypt and push the final configuration to a public S3 bucket from where our SDK retrieve the configuration.
 
 ## Configuration File Hashing and Protecting private information
 
@@ -378,13 +384,13 @@ experiments:
           - name: control
           - name: cohort_A
             force_include:
-                # Force all App Annie user under the given cohort
+                # Force all Data AI user under the given cohort
                 email_domain:
                     - appannie.com
 ```
 
 # Credits
 
-Made with ❤️ by [Zhang Tao](https://github.com/ZigZagT) and [Simon Boudrias](https://github.com/SBoudrias) from the App Annie Beijing office.
+Made with ❤️ by [Zhang Tao](https://github.com/ZigZagT) and [Simon Boudrias](https://github.com/SBoudrias) from the Data AI Beijing office.
 
 Available for public use under the MIT license.

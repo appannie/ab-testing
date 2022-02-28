@@ -24,22 +24,17 @@ describe('test validateAllocation func', () => {
     };
 
     it('passes an allocation if the user segment is within the valid range', () => {
-        expect(
-            validateAllocation(validCohort, hashObject({ user_id: 2 }, salt), 'experiment_1', 2)
-        ).toBe(true);
+        expect(validateAllocation(validCohort, hashObject({ user_id: 2 }, salt), 51)).toBe(true);
     });
     it('fails an allocation if the user segment is not within the valid range', () => {
-        expect(
-            validateAllocation(invalidCohort, hashObject({ user_id: 2 }, salt), 'experiment_1', 2)
-        ).toBe(false);
+        expect(validateAllocation(invalidCohort, hashObject({ user_id: 2 }, salt), 51)).toBe(false);
     });
     it('V2 - passes an allocation with fields if the user satisfies field requirements', () => {
         expect(
             validateAllocation(
                 fieldCohortV2,
                 hashObject({ user_id: 2, email_domain: 'data.ai' }, salt),
-                'experiment_1',
-                2
+                51
             )
         ).toBe(true);
     });
@@ -48,8 +43,7 @@ describe('test validateAllocation func', () => {
             validateAllocation(
                 fieldCohortV2,
                 hashObject({ user_id: 2, email_domain: 'google.ca' }, salt),
-                'experiment_1',
-                2
+                51
             )
         ).toBe(false);
     });

@@ -30,10 +30,10 @@ function getModuloValue(experiment: string, userId: number | string): number {
     return crc32.calculate(String(userId), crc32.calculate(experiment)) % 100;
 }
 
-function validateAllocationCriteria(filters: ForceInclude, userProfile: UserProfile): boolean {
+function validateAllocationCriteria(criteria: ForceInclude, userProfile: UserProfile): boolean {
     let itemMatchesCriteria = true;
-    for (const key in filters) {
-        if (!filters[key].includes(userProfile[key])) {
+    for (const key in criteria) {
+        if (!criteria[key].includes(userProfile[key])) {
             itemMatchesCriteria = false;
         }
     }
@@ -54,10 +54,8 @@ function validateUserWithinAllocationRange(userSegmentNum: number, range: Alloca
 export function validateAllocation(
     cohort: Cohort,
     userProfile: UserProfile,
-    configName: string,
-    userId: number | string
+    userSegmentNum: number
 ): boolean {
-    const userSegmentNum = getModuloValue(configName, userId);
     if (cohort.allocation) {
         if (validateUserWithinAllocationRange(userSegmentNum, cohort.allocation)) {
             if (cohort.allocation_criteria) {
@@ -88,13 +86,17 @@ function matchUserCohort(
     userProfile: { [s: string]: string }
 ): string {
     let allocatedCohort = 'control';
+    const userSegmentNum = getModuloValue(experimentConfig.name, userId);
+
     for (const cohort of experimentConfig.cohorts) {
         if (validateForceInclude(cohort, userProfile)) {
             return cohort.name;
         }
 
-        if (validateAllocation(cohort, userProfile, experimentConfig.name, userId)) {
-            allocatedCohort = cohort.name;
+        if (allocatedCohort === 'control') {
+            if (validateAllocation(cohort, userProfile, userSegmentNum)) {
+                allocatedCohort = cohort.name;
+            }
         }
     }
 

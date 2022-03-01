@@ -3,16 +3,16 @@ import { validateAllocation, Cohort } from '../src';
 
 describe('test validateAllocation func', () => {
     const salt = '4a9120a277117afeade34305c258a2f1';
-    const validCohort: Cohort = {
+    const withinRangeCohort: Cohort = {
         name: 'test_cohort',
         allocation: [[50, 100]],
     };
-    const invalidCohort: Cohort = {
+    const outOfRangeCohort: Cohort = {
         name: 'test_cohort',
         allocation: [[0, 45]],
     };
 
-    const fieldCohortV2: Cohort = {
+    const cohortWithCriteria: Cohort = {
         name: 'test_cohort',
         allocation: [[50, 100]],
         allocation_criteria: hashObject(
@@ -23,25 +23,49 @@ describe('test validateAllocation func', () => {
         ),
     };
 
+    const cohortNoAllocation: Cohort = {
+        name: 'test_cohort',
+        force_include: {
+            email_domain: ['data.ai'],
+        },
+    };
+
     it('passes an allocation if the user segment is within the valid range', () => {
-        expect(validateAllocation(validCohort, hashObject({ user_id: 2 }, salt), 51)).toBe(true);
+        expect(validateAllocation(withinRangeCohort, hashObject({ user_id: 2 }, salt), 51)).toBe(
+            true
+        );
     });
+
     it('fails an allocation if the user segment is not within the valid range', () => {
-        expect(validateAllocation(invalidCohort, hashObject({ user_id: 2 }, salt), 51)).toBe(false);
+        expect(validateAllocation(outOfRangeCohort, hashObject({ user_id: 2 }, salt), 51)).toBe(
+            false
+        );
     });
-    it('V2 - passes an allocation with fields if the user satisfies field requirements', () => {
+
+    it('passes an allocation with fields if the user satisfies field requirements', () => {
         expect(
             validateAllocation(
-                fieldCohortV2,
+                cohortWithCriteria,
                 hashObject({ user_id: 2, email_domain: 'data.ai' }, salt),
                 51
             )
         ).toBe(true);
     });
-    it('V2 - fails an allocation with fields if the user does not satisfy field requirements', () => {
+
+    it('fails an allocation with fields if the user does not satisfy field requirements', () => {
         expect(
             validateAllocation(
-                fieldCohortV2,
+                cohortWithCriteria,
+                hashObject({ user_id: 2, email_domain: 'google.ca' }, salt),
+                51
+            )
+        ).toBe(false);
+    });
+
+    it('It returns true if no allocation is passed in regardless of userSegmentNum', () => {
+        expect(
+            validateAllocation(
+                cohortNoAllocation,
                 hashObject({ user_id: 2, email_domain: 'google.ca' }, salt),
                 51
             )

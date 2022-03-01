@@ -6,8 +6,6 @@ type ForceInclude = {
     [key: string]: string[];
 };
 
-type AllocationV1 = [number, number][];
-
 export type Cohort = {
     name: string;
     allocation?: [number, number][];
@@ -30,7 +28,7 @@ function getModuloValue(experiment: string, userId: number | string): number {
     return crc32.calculate(String(userId), crc32.calculate(experiment)) % 100;
 }
 
-function validateAllocationCriteria(criteria: ForceInclude, userProfile: UserProfile): boolean {
+function validateCriteria(criteria: ForceInclude, userProfile: UserProfile): boolean {
     let itemMatchesCriteria = true;
     for (const key in criteria) {
         if (!criteria[key].includes(userProfile[key])) {
@@ -41,31 +39,28 @@ function validateAllocationCriteria(criteria: ForceInclude, userProfile: UserPro
     return itemMatchesCriteria;
 }
 
-function validateUserWithinAllocationRange(userSegmentNum: number, range: AllocationV1) {
-    for (const allocation of range) {
-        if (allocation[0] <= userSegmentNum && userSegmentNum < allocation[1]) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 export function validateAllocation(
     cohort: Cohort,
     userProfile: UserProfile,
     userSegmentNum: number
 ): boolean {
+    let withinRange = false,
+        fulfillsCriteria = true;
     if (cohort.allocation) {
-        if (validateUserWithinAllocationRange(userSegmentNum, cohort.allocation)) {
-            if (cohort.allocation_criteria) {
-                return validateAllocationCriteria(cohort.allocation_criteria, userProfile);
+        for (const allocation of cohort.allocation) {
+            withinRange = allocation[0] <= userSegmentNum && userSegmentNum < allocation[1];
+
+            if (withinRange) {
+                break;
             }
-            return true;
+        }
+
+        if (withinRange && cohort.allocation_criteria) {
+            fulfillsCriteria = validateCriteria(cohort.allocation_criteria, userProfile);
         }
     }
 
-    return false;
+    return withinRange && fulfillsCriteria;
 }
 
 function validateForceInclude(cohort: Cohort, userProfile: UserProfile): boolean {
@@ -93,7 +88,7 @@ function matchUserCohort(
             return cohort.name;
         }
 
-        if (allocatedCohort === 'control') {
+        if (allocatedCohort === 'control' && cohort.allocation) {
             if (validateAllocation(cohort, userProfile, userSegmentNum)) {
                 allocatedCohort = cohort.name;
             }

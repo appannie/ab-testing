@@ -29,14 +29,13 @@ function getModuloValue(experiment: string, userId: number | string): number {
 }
 
 function validateCriteria(criteria: ForceInclude, userProfile: UserProfile): boolean {
-    let itemMatchesCriteria = true;
     for (const key in criteria) {
         if (!criteria[key].includes(userProfile[key])) {
-            itemMatchesCriteria = false;
+            return false;
         }
     }
 
-    return itemMatchesCriteria;
+    return true;
 }
 
 export function validateAllocation(
@@ -44,20 +43,18 @@ export function validateAllocation(
     userProfile: UserProfile,
     userSegmentNum: number
 ): boolean {
-    let withinRange = false,
-        fulfillsCriteria = true;
-    if (cohort.allocation) {
-        for (const allocation of cohort.allocation) {
-            withinRange = allocation[0] <= userSegmentNum && userSegmentNum < allocation[1];
+    let withinRange = false;
+    let fulfillsCriteria = true;
+    for (const allocation of cohort.allocation || []) {
+        withinRange = allocation[0] <= userSegmentNum && userSegmentNum < allocation[1];
 
-            if (withinRange) {
-                break;
-            }
+        if (withinRange) {
+            break;
         }
+    }
 
-        if (withinRange && cohort.allocation_criteria) {
-            fulfillsCriteria = validateCriteria(cohort.allocation_criteria, userProfile);
-        }
+    if (withinRange && cohort.allocation_criteria) {
+        fulfillsCriteria = validateCriteria(cohort.allocation_criteria, userProfile);
     }
 
     return withinRange && fulfillsCriteria;

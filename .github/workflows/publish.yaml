@@ -18,7 +18,7 @@ jobs:
         run: |
           curl -XDELETE \
             --url https://api.github.com/repos/${{ github.repository }}/releases/${{ github.event.release.id }} \
-            --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
+            --header 'authorization: Bearer ${{ secrets.GH_TOKEN }}'
           git push --delete origin ${{ github.event.release.tag_name }}
       - name: Set up Node
         uses: actions/setup-node@v1
@@ -41,7 +41,7 @@ jobs:
           yarn lerna publish from-git --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Publish to Pypi
         working-directory: ./packages/py-ab-testing
         env:

@@ -90,6 +90,21 @@ def config(salt):
                         }, salt)
                     },
                 ]
+            },
+            {
+                "name": "experiment_4",
+                "cohorts": [
+                    {
+                        "name": "control",
+                        "force_include": {}
+                    },
+                    {
+                        "name": "test_allocation",
+                        "allocation": [
+                            [40, 50]
+                        ],
+                    },
+                ]
             }
         ],
         "salt": salt
@@ -209,19 +224,33 @@ def test_match_cohort(config, salt, snapshot):
         1,
         hash_dict({'user_id': 1, 'email_domain': 'data2.ai'}, salt)
     ).get_cohort('experiment_3') == 'control'
+
+    # Experiment 4 - Test Allocation without Allocation Criteria
+
+    assert ABTestingController(
+        config,
+        1,
+        hash_dict({'user_id': 1, 'email_domain': 'data.ai'}, salt)
+    ).get_cohort('experiment_4') == 'test_allocation'
     
-    # Experiment 4 - non-existent cohort tests
+    assert ABTestingController(
+        config,
+        1234,
+        hash_dict({'user_id': 1234, 'email_domain': 'data2.ai'}, salt)
+    ).get_cohort('experiment_4') == 'control'
+    
+    # Experiment 5 - non-existent cohort tests
 
     assert ABTestingController(
         config,
         1,
         hash_dict({'user_id': 1, 'email_domain': 'example.com'}, salt)
-    ).get_cohort('experiment_4') == 'control'
+    ).get_cohort('experiment_5') == 'control'
     assert ABTestingController(
         config,
         1,
         hash_dict({'user_id': 1, 'email_domain': 'example.com'}, salt)
-    ).has_experiment('experiment_4') == False
+    ).has_experiment('experiment_5') == False
 
 
 def test_match_results_are_cached(config, salt):

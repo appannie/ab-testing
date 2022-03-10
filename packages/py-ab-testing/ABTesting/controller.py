@@ -39,7 +39,7 @@ def match_user_cohort(
                     break
 
             if(within_allocation_range):
-                if(validate_criteria(cohort.get('allocation_criteria', []), user_profile)):
+                if(validate_criteria(cohort.get('allocation_criteria', {}), user_profile)):
                     allocated_cohort = cohort['name']
 
     return allocated_cohort

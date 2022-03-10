@@ -10,6 +10,12 @@ def get_modulo_value(experiment, user_id):
     # type: (str, Union[str, int]) -> int
     return crc32c(str(user_id).encode(), crc32c(experiment.encode())) % 100
 
+def validate_criteria(criteria, user_profile):
+    for key in criteria:
+        if not (key in user_profile and user_profile[key] in criteria[key]):
+            return False
+    
+    return True
 
 def match_user_cohort(
     experiment_config,
@@ -19,15 +25,23 @@ def match_user_cohort(
     # type: (Dict, Union[str, int], Dict[str, str]) -> str
     user_segment_num = get_modulo_value(experiment_config['name'], user_id)
     allocated_cohort = 'control'
+    within_allocation_range = False
+
     for cohort in experiment_config['cohorts']:
         for force_include_key, force_include_val in cohort.get('force_include', {}).items():
             if force_include_key in user_profile and user_profile[force_include_key] in force_include_val:
                 return cohort['name']
+
         if allocated_cohort == 'control':
             for allocation in cohort.get('allocation', []):
                 if allocation[0] <= user_segment_num < allocation[1]:
-                    allocated_cohort = cohort['name']
+                    within_allocation_range = True
                     break
+
+            if(within_allocation_range):
+                if(validate_criteria(cohort.get('allocation_criteria', {}), user_profile)):
+                    allocated_cohort = cohort['name']
+
     return allocated_cohort
 
 

@@ -6,3 +6,9 @@ node_modules
 coverage
 packages/*/lib
 packages/*/README.md
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions

@@ -19,11 +19,10 @@ export const ABTestingController: React.FunctionComponent<{
     userProfile: { [key: string]: string };
     children: ReactNode;
 }> = ({ config, userId, userProfile, children }) => {
-    const experiments = React.useMemo(() => new Experiments(config, userId, userProfile), [
-        config,
-        userId,
-        userProfile,
-    ]);
+    const experiments = React.useMemo(
+        () => new Experiments(config, userId, userProfile),
+        [config, userId, userProfile]
+    );
     return <ABTestingContext.Provider value={experiments}>{children}</ABTestingContext.Provider>;
 };
 

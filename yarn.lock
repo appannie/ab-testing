@@ -10,16 +10,19 @@
     "@jridgewell/trace-mapping" "^0.3.0"
 
 "@appannie/ab-testing-hash-object@link:packages/ab-testing-hash-object":
-  version "0.0.0"
-  uid ""
+  version "1.3.1"
+  dependencies:
+    create-hash "^1.2.0"
 
 "@appannie/ab-testing@link:packages/ab-testing":
-  version "0.0.0"
-  uid ""
+  version "1.3.1"
+  dependencies:
+    fast-crc32c "^2.0.0"
 
 "@appannie/react-ab-testing@link:packages/react-ab-testing":
-  version "0.0.0"
-  uid ""
+  version "1.3.1"
+  dependencies:
+    "@appannie/ab-testing" "link:packages/ab-testing"
 
 "@babel/code-frame@7.0.0":
   version "7.0.0"
@@ -5150,19 +5153,10 @@ json-stringify-safe@^5.0.1, json-stringify-safe@~5.0.1:
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
 
-json5@2.x, json5@^2.1.2:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.0.tgz#2dfefe720c6ba525d9ebd909950f0515316c89a3"
-  integrity sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==
-  dependencies:
-    minimist "^1.2.5"
-
-json5@^2.1.0:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/json5/-/json5-2.1.1.tgz#81b6cb04e9ba496f1c7005d07b4368a2638f90b6"
-  integrity sha512-l+3HXD0GEI3huGq1njuqtzYK8OYJyXMkOLtQ53pjWh89tvWS2h6l+1zMkYWqlb57+SiQodKZyvMEFb2X+KrFhQ==
-  dependencies:
-    minimist "^1.2.0"
+json5@2.x, json5@^2.1.0, json5@^2.1.2:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.3.tgz#78cd6f1a19bdc12b73db5ad0c61efd66c1e29283"
+  integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
 
 jsonfile@^6.0.1:
   version "6.1.0"
@@ -6538,8 +6532,7 @@ punycode@^2.1.0, punycode@^2.1.1:
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
 "py-ab-testing@link:packages/py-ab-testing":
-  version "0.0.0"
-  uid ""
+  version "1.3.1"
 
 q@^1.5.1:
   version "1.5.1"

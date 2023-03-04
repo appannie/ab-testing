@@ -10,16 +10,19 @@
     "@jridgewell/trace-mapping" "^0.3.0"
 
 "@appannie/ab-testing-hash-object@link:packages/ab-testing-hash-object":
-  version "0.0.0"
-  uid ""
+  version "1.3.1"
+  dependencies:
+    create-hash "^1.2.0"
 
 "@appannie/ab-testing@link:packages/ab-testing":
-  version "0.0.0"
-  uid ""
+  version "1.3.1"
+  dependencies:
+    fast-crc32c "^2.0.0"
 
 "@appannie/react-ab-testing@link:packages/react-ab-testing":
-  version "0.0.0"
-  uid ""
+  version "1.3.1"
+  dependencies:
+    "@appannie/ab-testing" "link:packages/ab-testing"
 
 "@babel/code-frame@7.0.0":
   version "7.0.0"
@@ -5610,9 +5613,9 @@ minimist-options@4.1.0:
     kind-of "^6.0.3"
 
 minimist@^1.1.3, minimist@^1.2.0, minimist@^1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
-  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
+  integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
 
 minipass-collect@^1.0.2:
   version "1.0.2"
@@ -6538,8 +6541,7 @@ punycode@^2.1.0, punycode@^2.1.1:
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
 "py-ab-testing@link:packages/py-ab-testing":
-  version "0.0.0"
-  uid ""
+  version "1.3.1"
 
 q@^1.5.1:
   version "1.5.1"
